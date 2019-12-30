@@ -286,8 +286,7 @@ class Index
             // $columns[names][]
             // $columns[sub_parts][]
             foreach ($columns['names'] as $key => $name) {
-                $sub_part = isset($columns['sub_parts'][$key])
-                    ? $columns['sub_parts'][$key] : '';
+                $sub_part = $columns['sub_parts'][$key] ?? '';
                 $_columns[] = [
                     'Column_name'   => $name,
                     'Sub_part'      => $sub_part,
@@ -857,6 +856,7 @@ class Index
      * @param string $schema schema name
      *
      * @return string  Output HTML
+     *
      * @access  public
      */
     public static function findDuplicates($table, $schema)

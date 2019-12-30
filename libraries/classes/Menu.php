@@ -8,8 +8,6 @@ declare(strict_types=1);
 
 namespace PhpMyAdmin;
 
-use PhpMyAdmin\Html\Generator;
-
 /**
  * Class for generating the top menu
  *
@@ -285,9 +283,9 @@ class Menu
         $tabs['search']['text'] = __('Search');
         $tabs['search']['link'] = Url::getFromRoute('/table/search');
         $tabs['search']['active'] = in_array($route, [
-            '/table/find_replace',
+            '/table/find-replace',
             '/table/search',
-            '/table/zoom_select',
+            '/table/zoom-search',
         ]);
 
         if (! $db_is_system_schema && (! $tbl_is_view || $updatable_view)) {
@@ -483,8 +481,8 @@ class Menu
         ) {
             $tabs['central_columns']['text'] = __('Central columns');
             $tabs['central_columns']['icon'] = 'centralColumns';
-            $tabs['central_columns']['link'] = Url::getFromRoute('/database/central_columns');
-            $tabs['central_columns']['active'] = $route === '/database/central_columns';
+            $tabs['central_columns']['link'] = Url::getFromRoute('/database/central-columns');
+            $tabs['central_columns']['active'] = $route === '/database/central-columns';
         }
         return $tabs;
     }
@@ -544,7 +542,7 @@ class Menu
             $tabs['rights']['text'] = __('User accounts');
             $tabs['rights']['active'] = in_array($route, [
                 '/server/privileges',
-                '/server/user_groups',
+                '/server/user-groups',
             ]);
             $tabs['rights']['args']['viewing_mode'] = 'server';
         }
@@ -565,7 +563,7 @@ class Menu
         $tabs['settings']['active'] = in_array($route, [
             '/preferences/forms',
             '/preferences/manage',
-            '/preferences/twofactor',
+            '/preferences/two-factor',
         ]);
 
         if (! empty($binary_logs)) {

@@ -126,9 +126,9 @@ class Advisor
     /**
      * Get variables
      *
-     * @return mixed
+     * @return array
      */
-    public function getVariables()
+    public function getVariables(): array
     {
         return $this->variables;
     }
@@ -165,9 +165,9 @@ class Advisor
     /**
      * Get parseResult
      *
-     * @return mixed
+     * @return array
      */
-    public function getParseResult()
+    public function getParseResult(): array
     {
         return $this->parseResult;
     }
@@ -189,9 +189,9 @@ class Advisor
     /**
      * Get runResult
      *
-     * @return mixed
+     * @return array
      */
-    public function getRunResult()
+    public function getRunResult(): array
     {
         return $this->runResult;
     }
@@ -230,8 +230,7 @@ class Advisor
         // Add total memory to variables as well
         $sysinfo = SysInfo::get();
         $memory  = $sysinfo->memory();
-        $this->variables['system_memory']
-            = isset($memory['MemTotal']) ? $memory['MemTotal'] : 0;
+        $this->variables['system_memory'] = $memory['MemTotal'] ?? 0;
 
         $ruleFiles = $this->defineRulesFiles();
 
@@ -363,6 +362,7 @@ class Advisor
      * @param string $param the parameters
      *
      * @return string
+     *
      * @throws Exception
      */
     public function translate(string $str, ?string $param = null): string
@@ -402,6 +402,7 @@ class Advisor
      * @param array  $rule rule itself
      *
      * @return void
+     *
      * @throws Exception
      */
     public function addRule(string $type, array $rule): void

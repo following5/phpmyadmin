@@ -31,8 +31,6 @@ class Relation
     public $template;
 
     /**
-     * Relation constructor.
-     *
      * @param DatabaseInterface|null $dbi      Database interface
      * @param Template|null          $template Template instance
      */
@@ -52,7 +50,6 @@ class Relation
      * @return resource|boolean the result set, or false if no result set
      *
      * @access  public
-     *
      */
     public function queryAsControlUser($sql, $show_error = true, $options = 0)
     {
@@ -479,8 +476,9 @@ class Relation
      * just a copy of the functions used for relations ;-)
      * but added some stuff to check what will work
      *
-     * @access  protected
      * @return string[]    the relation parameters for the current user
+     *
+     * @access  protected
      */
     public function checkRelationsParam(): array
     {
@@ -750,6 +748,7 @@ class Relation
      * Check if the table is accessible
      *
      * @param string $tableDbName The table or table.db
+     *
      * @return boolean The table is accessible
      */
     public function canAccessStorageTable(string $tableDbName): bool
@@ -1052,9 +1051,9 @@ class Relation
     /**
      * Gets the comment for a db
      *
-     * @access  public
-     *
      * @return array comments
+     *
+     * @access  public
      */
     public function getDbComments()
     {
@@ -1354,7 +1353,7 @@ class Relation
                         mb_substr(
                             $value,
                             0,
-                            $GLOBALS['cfg']['LimitChars']
+                            (int) $GLOBALS['cfg']['LimitChars']
                         ) . '...'
                     );
                 }
@@ -1597,12 +1596,12 @@ class Relation
 
         $foreignData = [];
         $foreignData['foreign_link'] = $foreign_link;
-        $foreignData['the_total'] = isset($the_total) ? $the_total : null;
+        $foreignData['the_total'] = $the_total ?? null;
         $foreignData['foreign_display'] = (
-            isset($foreign_display) ? $foreign_display : null
+            $foreign_display ?? null
         );
-        $foreignData['disp_row'] = isset($disp_row) ? $disp_row : null;
-        $foreignData['foreign_field'] = isset($foreign_field) ? $foreign_field : null;
+        $foreignData['disp_row'] = $disp_row ?? null;
+        $foreignData['foreign_field'] = $foreign_field ?? null;
 
         return $foreignData;
     }
@@ -1992,17 +1991,11 @@ class Relation
             if ($column_index !== false) {
                 $foreigner['foreign_field']
                     = $one_key['ref_index_list'][$column_index];
-                $foreigner['foreign_db'] = isset($one_key['ref_db_name'])
-                    ? $one_key['ref_db_name']
-                    : $GLOBALS['db'];
+                $foreigner['foreign_db'] = $one_key['ref_db_name'] ?? $GLOBALS['db'];
                 $foreigner['foreign_table'] = $one_key['ref_table_name'];
                 $foreigner['constraint'] = $one_key['constraint'];
-                $foreigner['on_update'] = isset($one_key['on_update'])
-                    ? $one_key['on_update']
-                    : 'RESTRICT';
-                $foreigner['on_delete'] = isset($one_key['on_delete'])
-                    ? $one_key['on_delete']
-                    : 'RESTRICT';
+                $foreigner['on_update'] = $one_key['on_update'] ?? 'RESTRICT';
+                $foreigner['on_delete'] = $one_key['on_delete'] ?? 'RESTRICT';
 
                 return $foreigner;
             }

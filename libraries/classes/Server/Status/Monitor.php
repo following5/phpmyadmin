@@ -25,7 +25,6 @@ class Monitor
     private $dbi;
 
     /**
-     * Monitor constructor.
      * @param DatabaseInterface $dbi DatabaseInterface instance
      */
     public function __construct($dbi)
@@ -238,7 +237,7 @@ class Monitor
                     $memory = $sysinfo->memory();
                 }
 
-                $ret['value'] = isset($memory[$pName]) ? $memory[$pName] : 0;
+                $ret['value'] = $memory[$pName] ?? 0;
                 break;
         }
 

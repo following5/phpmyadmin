@@ -4,7 +4,7 @@
 /* global DatabaseStructure */ // js/database/structure.js
 /* global mysqlDocBuiltin, mysqlDocKeyword */ // js/doclinks.js
 /* global Indexes */ // js/indexes.js
-/* global firstDayOfCalendar, maxInputVars, mysqlDocTemplate, pmaThemeImage */ // js/messages.php
+/* global firstDayOfCalendar, maxInputVars, mysqlDocTemplate, pmaThemeImage */ // templates/javascript/variables.twig
 /* global MicroHistory */ // js/microhistory.js
 /* global sprintf */ // js/vendor/sprintf.js
 /* global Int32Array */ // ES6
@@ -111,12 +111,23 @@ $.ajaxPrefilter(function (options, originalOptions) {
  * @param {object} $thisElement a jQuery object pointing to the element
  */
 Functions.addDatepicker = function ($thisElement, type, options) {
+    if (type !== 'date' && type !== 'time' && type !== 'datetime' && type !== 'timestamp') {
+        return;
+    }
+
     var showTimepicker = true;
     if (type === 'date') {
         showTimepicker = false;
     }
 
+    // Getting the current Date and time
+    var currentDateTime = new Date();
+
     var defaultOptions = {
+        timeInput : true,
+        hour: currentDateTime.getHours(),
+        minute: currentDateTime.getMinutes(),
+        second: currentDateTime.getSeconds(),
         showOn: 'button',
         buttonImage: pmaThemeImage + 'b_calendar.png',
         buttonImageOnly: true,
@@ -1054,6 +1065,7 @@ AJAX.registerOnload('functions.js', function () {
                         $('input[name=token]').val(data.new_token);
                     }
                     idleSecondsCounter = 0;
+                    Functions.handleRedirectAndReload(data);
                 }
             }
         });
@@ -3550,7 +3562,7 @@ AJAX.registerOnload('functions.js', function () {
     });
 
     $(document).on('click', 'a.central_columns_dialog', function () {
-        var href = 'index.php?route=/database/central_columns';
+        var href = 'index.php?route=/database/central-columns';
         var db = CommonParams.get('db');
         var table = CommonParams.get('table');
         var maxRows = $(this).data('maxrows');
@@ -4914,8 +4926,10 @@ Functions.toggleDatepickerIfInvalid = function ($td, $inputField) {
 
 /**
  * Function to submit the login form after validation is done.
+ * NOTE: do NOT use a module or it will break the callback, issue #15435
  */
-Functions.recaptchaCallback = function () {
+// eslint-disable-next-line no-unused-vars, camelcase
+var Functions_recaptchaCallback = function () {
     $('#login_form').trigger('submit');
 };
 

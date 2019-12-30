@@ -9,11 +9,11 @@ declare(strict_types=1);
 namespace PhpMyAdmin\Tests;
 
 use PhpMyAdmin\DatabaseInterface;
-use PhpMyAdmin\Tests\Stubs\DbiDummy;
 use PhpMyAdmin\Index;
 use PhpMyAdmin\Relation;
 use PhpMyAdmin\Table;
 use PhpMyAdmin\Tests\PmaTestCase;
+use PhpMyAdmin\Tests\Stubs\DbiDummy;
 use ReflectionClass;
 use stdClass;
 
@@ -51,6 +51,7 @@ class TableTest extends PmaTestCase
         {
             /**
              * @param mixed $name name
+             *
              * @return bool
              */
             public function exists($name)
@@ -708,6 +709,167 @@ class TableTest extends PmaTestCase
             . "COMMENT 'PMA_comment' FIRST",
             $query
         );
+
+        $type = 'INT';
+        $default_type = 'NONE';
+        $move_to = '-first';
+        $query = Table::generateFieldSpec(
+            'ids',
+            'INT',
+            '11',
+            $attribute,
+            $collation,
+            $null,
+            $default_type,
+            $default_value,
+            'AUTO_INCREMENT',
+            $comment,
+            $virtuality,
+            $expression,
+            $move_to,
+            ['id'],
+            'id'
+        );
+        $this->assertEquals(
+            '`ids` INT(11) PMA_attribute NULL AUTO_INCREMENT '
+            . "COMMENT 'PMA_comment' FIRST",
+            $query
+        );
+
+        $type = 'INT';
+        $default_type = 'NONE';
+        $move_to = '-first';
+        $query = Table::generateFieldSpec(
+            'ids',
+            'INT',
+            '11',
+            $attribute,
+            $collation,
+            $null,
+            $default_type,
+            $default_value,
+            'AUTO_INCREMENT',
+            $comment,
+            $virtuality,
+            $expression,
+            $move_to,
+            ['othercol'],
+            'id'
+        );
+        // Add primary key for AUTO_INCREMENT if missing
+        $this->assertEquals(
+            '`ids` INT(11) PMA_attribute NULL AUTO_INCREMENT '
+            . "COMMENT 'PMA_comment' FIRST, add PRIMARY KEY (`ids`)",
+            $query
+        );
+
+        $type = 'INT';
+        $default_type = 'NONE';
+        $move_to = '-first';
+        $query = Table::generateFieldSpec(
+            'id',
+            'INT',
+            '11',
+            $attribute,
+            $collation,
+            $null,
+            $default_type,
+            $default_value,
+            'DEF',
+            $comment,
+            $virtuality,
+            $expression,
+            $move_to,
+            ['id'],
+            'id'
+        );
+        // Do not add PK
+        $this->assertEquals(
+            '`id` INT(11) PMA_attribute NULL DEF '
+            . "COMMENT 'PMA_comment' FIRST",
+            $query
+        );
+
+        $type = 'INT';
+        $default_type = 'NONE';
+        $move_to = '-first';
+        $query = Table::generateFieldSpec(
+            'ids',
+            'INT',
+            '11',
+            $attribute,
+            $collation,
+            $null,
+            $default_type,
+            $default_value,
+            'DEF',
+            $comment,
+            $virtuality,
+            $expression,
+            $move_to,
+            ['id'],
+            'id'
+        );
+        // Do not add PK
+        $this->assertEquals(
+            '`ids` INT(11) PMA_attribute NULL DEF '
+            . "COMMENT 'PMA_comment' FIRST",
+            $query
+        );
+
+        $type = 'INT';
+        $default_type = 'NONE';
+        $move_to = '-first';
+        $query = Table::generateFieldSpec(
+            'ids',
+            'INT',
+            '11',
+            $attribute,
+            $collation,
+            $null,
+            $default_type,
+            $default_value,
+            'DEF',
+            $comment,
+            $virtuality,
+            $expression,
+            $move_to,
+            ['ids'],
+            'id'
+        );
+        // Add it beaucause it is missing
+        $this->assertEquals(
+            '`ids` INT(11) PMA_attribute NULL DEF '
+            . "COMMENT 'PMA_comment' FIRST, add PRIMARY KEY (`ids`)",
+            $query
+        );
+
+        $type = 'INT';
+        $default_type = 'NONE';
+        $move_to = '-first';
+        $query = Table::generateFieldSpec(
+            'ids',
+            'INT',
+            '11',
+            $attribute,
+            $collation,
+            $null,
+            $default_type,
+            $default_value,
+            'USER_DEFINED',
+            $comment,
+            'VIRTUAL',
+            '1',
+            $move_to,
+            ['othercol'],
+            'id'
+        );
+        // Do not add PK since it is not a AUTO_INCREMENT
+        $this->assertEquals(
+            '`ids` INT(11) PMA_attribute AS (1) VIRTUAL NULL '
+            . "USER_DEFINED COMMENT 'PMA_comment' FIRST",
+            $query
+        );
     }
 
 
@@ -1101,6 +1263,7 @@ class TableTest extends PmaTestCase
      * Tests for _getSQLToCreateForeignKey() method.
      *
      * @return void
+     *
      * @test
      */
     public function testGetSQLToCreateForeignKey()
@@ -1164,6 +1327,7 @@ class TableTest extends PmaTestCase
      * Tests for getSqlQueryForIndexCreateOrEdit() method.
      *
      * @return void
+     *
      * @test
      */
     public function testGetSqlQueryForIndexCreateOrEdit()

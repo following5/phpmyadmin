@@ -57,6 +57,7 @@ class Import
      * Checks whether timeout is getting close
      *
      * @return boolean true if timeout is close
+     *
      * @access public
      */
     public function checkTimeout(): bool
@@ -67,7 +68,7 @@ class Import
         } elseif ($timeout_passed) {
             return true;
             /* 5 in next row might be too much */
-        } elseif ((time() - $timestamp) > ($maximum_time - 5)) {
+        } elseif (time() - $timestamp > $maximum_time - 5) {
             $timeout_passed = true;
             return true;
         }
@@ -84,6 +85,7 @@ class Import
      * @param array  $sql_data SQL parse data storage
      *
      * @return void
+     *
      * @access public
      */
     public function executeQuery(string $sql, string $full, array &$sql_data): void
@@ -171,6 +173,7 @@ class Import
      * @param array  $sql_data SQL parse data storage
      *
      * @return void
+     *
      * @access public
      */
     public function runQuery(
@@ -324,6 +327,7 @@ class Import
      * @param bool   $reload reload
      *
      * @return array (current or new db, whether to reload)
+     *
      * @access public
      */
     public function lookForUse(?string $buffer, ?string $db, ?bool $reload): array
@@ -353,6 +357,7 @@ class Import
      *                  (this is maximal size function will return)
      *
      * @return string|bool part of file/buffer
+     *
      * @access public
      */
     public function getNextChunk(int $size = 32768)
@@ -446,6 +451,7 @@ class Import
      * @param int $num the column number
      *
      * @return string The column's "Excel" name
+     *
      * @access  public
      */
     public function getColumnAlphaName(int $num): string
@@ -472,10 +478,10 @@ class Import
         if ($num == 0) {
             // use 'Z' if column number is 0,
             // this is necessary because A-Z has no 'zero'
-            $col_name .= mb_chr(($A + 26) - 1);
+            $col_name .= mb_chr($A + 26 - 1);
         } else {
             // convert column number to ASCII character
-            $col_name .= mb_chr(($A + $num) - 1);
+            $col_name .= mb_chr($A + $num - 1);
         }
 
         return $col_name;
@@ -493,6 +499,7 @@ class Import
      * @param string $name column name(i.e. "A", or "BC", etc.)
      *
      * @return int The column number
+     *
      * @access  public
      */
     public function getColumnNumberFromName(string $name): int
@@ -506,7 +513,7 @@ class Import
         $column_number = 0;
         for ($i = 0; $i < $num_chars; ++$i) {
             // read string from back to front
-            $char_pos = ($num_chars - 1) - $i;
+            $char_pos = $num_chars - 1 - $i;
 
             // convert capital character to ASCII value
             // and subtract 64 to get corresponding decimal value
@@ -528,6 +535,7 @@ class Import
      * @param string $last_cumulative_size Size of type decimal
      *
      * @return int Precision of the given decimal size notation
+     *
      * @access  public
      */
     public function getDecimalPrecision(string $last_cumulative_size): int
@@ -546,6 +554,7 @@ class Import
      * @param string $last_cumulative_size Size of type decimal
      *
      * @return int Scale of the given decimal size notation
+     *
      * @access  public
      */
     public function getDecimalScale(string $last_cumulative_size): int
@@ -564,13 +573,14 @@ class Import
      *
      * @return array Contains the precision, scale, and full size
      *                representation of the given decimal cell
+     *
      * @access  public
      */
     public function getDecimalSize(string $cell): array
     {
         $curr_size = mb_strlen($cell);
         $decPos = mb_strpos($cell, '.');
-        $decPrecision = ($curr_size - 1) - $decPos;
+        $decPrecision = $curr_size - 1 - $decPos;
 
         $m = $curr_size - 1;
         $d = $decPrecision;
@@ -593,8 +603,8 @@ class Import
      * @param string     $cell                 The current cell
      *
      * @return string|int Size of the given cell in the type-appropriate format
-     * @access  public
      *
+     * @access  public
      * @todo    Handle the error cases more elegantly
      */
     public function detectSize(
@@ -686,8 +696,8 @@ class Import
                 /* New val if M or D is greater than current largest */
                 if ($size[self::M] > $oldM || $size[self::D] > $oldD) {
                     /* Take the largest of both types */
-                    return (string) ((($size[self::M] > $oldM) ? $size[self::M] : $oldM)
-                        . ',' . (($size[self::D] > $oldD) ? $size[self::D] : $oldD));
+                    return (string) (($size[self::M] > $oldM ? $size[self::M] : $oldM)
+                        . ',' . ($size[self::D] > $oldD ? $size[self::D] : $oldD));
                 }
 
                 return $last_cumulative_size;
@@ -797,6 +807,7 @@ class Import
      *
      * @return int  The MySQL type representation
      *               (VARCHAR or INT or BIGINT or DECIMAL or NONE)
+     *
      * @access  public
      */
     public function detectType(?int $last_cumulative_type, ?string $cell): int
@@ -839,13 +850,13 @@ class Import
     /**
      * Determines if the column types are int, decimal, or string
      *
+     * @link https://wiki.phpmyadmin.net/pma/Import
+     *
      * @param array $table array(string $table_name, array $col_names, array $rows)
      *
      * @return array|bool array(array $types, array $sizes)
+     *
      * @access  public
-     *
-     * @link https://wiki.phpmyadmin.net/pma/Import
-     *
      * @todo    Handle the error case more elegantly
      */
     public function analyzeTable(array &$table)
@@ -941,6 +952,8 @@ class Import
      * Builds and executes SQL statements to create the database and tables
      * as necessary, as well as insert all the data.
      *
+     * @link https://wiki.phpmyadmin.net/pma/Import
+     *
      * @param string     $db_name        Name of the database
      * @param array      $tables         Array of tables for the specified database
      * @param array|null $analyses       Analyses of the tables
@@ -949,9 +962,8 @@ class Import
      * @param array      $sql_data       2-element array with sql data
      *
      * @return void
-     * @access  public
      *
-     * @link https://wiki.phpmyadmin.net/pma/Import
+     * @access  public
      */
     public function buildSql(
         string $db_name,
@@ -985,6 +997,7 @@ class Import
 
         /**
          * Create SQL code to handle the database
+         *
          * @var array<int,string> $sql
          */
         $sql = [];
@@ -1080,7 +1093,7 @@ class Import
                         $tempSQLStr .= '(' . $size . ')';
                     }
 
-                    if ($j != (count($tables[$i][self::COL_NAMES]) - 1)) {
+                    if ($j != count($tables[$i][self::COL_NAMES]) - 1) {
                         $tempSQLStr .= ', ';
                     }
                 }
@@ -1114,7 +1127,7 @@ class Import
             for ($m = 0; $m < $num_cols; ++$m) {
                 $tempSQLStr .= Util::backquote($tables[$i][self::COL_NAMES][$m]);
 
-                if ($m != ($num_cols - 1)) {
+                if ($m != $num_cols - 1) {
                     $tempSQLStr .= ', ';
                 }
             }
@@ -1151,11 +1164,11 @@ class Import
                         $tempSQLStr .= $is_varchar ? "'" : '';
                     }
 
-                    if ($k != ($num_cols - 1)) {
+                    if ($k != $num_cols - 1) {
                         $tempSQLStr .= ', ';
                     }
 
-                    if ($col_count == ($num_cols - 1)) {
+                    if ($col_count == $num_cols - 1) {
                         $col_count = 0;
                     } else {
                         $col_count++;
@@ -1167,7 +1180,7 @@ class Import
 
                 $tempSQLStr .= ')';
 
-                if ($j != ($num_rows - 1)) {
+                if ($j != $num_rows - 1) {
                     $tempSQLStr .= ",\n ";
                 }
 
@@ -1334,8 +1347,8 @@ class Import
      * @param Message $error_message The error message
      *
      * @return void
-     * @access  public
      *
+     * @access  public
      */
     public function stop(Message $error_message): void
     {

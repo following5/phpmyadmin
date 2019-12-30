@@ -293,7 +293,7 @@ class Sql
     private function getHtmlForProfilingChart($urlQuery, $database, $profilingResults): string
     {
         if (! empty($profilingResults)) {
-            $urlQuery = isset($urlQuery) ? $urlQuery : Url::getCommon(['db' => $database]);
+            $urlQuery = $urlQuery ?? Url::getCommon(['db' => $database]);
 
             [
                 $detailedTable,
@@ -318,11 +318,11 @@ class Sql
      *
      * @param array $profiling_results profiling results
      *
-     * @return mixed
+     * @return array
      */
     private function analyzeAndGetTableHtmlForProfilingResults(
         $profiling_results
-    ) {
+    ): array {
         $profiling_stats = [
             'total_time' => 0,
             'states' => [],
@@ -416,8 +416,8 @@ class Sql
     {
         $values = $this->getValuesForColumn($db, $table, $column);
 
-        $full_values = isset($_POST['get_full_values']) ? $_POST['get_full_values'] : false;
-        $where_clause = isset($_POST['where_clause']) ? $_POST['where_clause'] : null;
+        $full_values = $_POST['get_full_values'] ?? false;
+        $where_clause = $_POST['where_clause'] ?? null;
 
         // If the $curr_value was truncated, we should
         // fetch the correct full values from the table
@@ -438,7 +438,7 @@ class Sql
         );
 
         $selected_values = explode(',', $converted_curr_value);
-        $select_size = (count($values) > 10) ? 10 : count($values);
+        $select_size = count($values) > 10 ? 10 : count($values);
 
         return $this->template->render('sql/set_column', [
             'size' => $select_size,
@@ -507,7 +507,7 @@ class Sql
                     'id_bookmark' => 1,
                 ]),
                 'user' => $bkm_user,
-                'sql_query' => isset($complete_query) ? $complete_query : $sql_query,
+                'sql_query' => $complete_query ?? $sql_query,
             ]);
         }
         return '';
@@ -647,7 +647,7 @@ class Sql
         $retval = $pmatable->setUiProp(
             $property_to_set,
             $property_value,
-            isset($_POST['table_create_time']) ? $_POST['table_create_time'] : null
+            $_POST['table_create_time'] ?? null
         );
         if (! is_bool($retval)) {
             $response = Response::getInstance();
@@ -1197,7 +1197,7 @@ class Sql
                     $cfgBookmark['user'],
                     $sql_query_for_bookmark,
                     $_POST['bkm_label'],
-                    isset($_POST['bkm_replace']) ? $_POST['bkm_replace'] : null
+                    $_POST['bkm_replace'] ?? null
                 );
             } // end store bookmarks
 
@@ -1218,7 +1218,7 @@ class Sql
 
             $justBrowsing = $this->isJustBrowsing(
                 $analyzed_sql_results,
-                isset($find_real_end) ? $find_real_end : null
+                $find_real_end ?? null
             );
 
             $unlim_num_rows = $this->countQueryResults(
@@ -1230,10 +1230,10 @@ class Sql
             );
 
             $this->cleanupRelations(
-                isset($db) ? $db : '',
-                isset($table) ? $table : '',
-                isset($_POST['dropped_column']) ? $_POST['dropped_column'] : null,
-                isset($_POST['purge']) ? $_POST['purge'] : null
+                $db ?? '',
+                $table ?? '',
+                $_POST['dropped_column'] ?? null,
+                $_POST['purge'] ?? null
             );
 
             if (isset($_POST['dropped_column'])
@@ -1252,7 +1252,7 @@ class Sql
             $result,
             $num_rows,
             $unlim_num_rows,
-            isset($profiling_results) ? $profiling_results : null,
+            $profiling_results ?? null,
             $extra_data,
         ];
     }
@@ -1414,7 +1414,7 @@ class Sql
             $message = Message::rawError($extra_data['error']);
         } else {
             $message = $this->getMessageForNoRowsReturned(
-                isset($message_to_show) ? $message_to_show : null,
+                $message_to_show ?? null,
                 $analyzed_sql_results,
                 $num_rows
             );
@@ -1442,11 +1442,11 @@ class Sql
             }
 
             $response = Response::getInstance();
-            $response->addJSON(isset($extra_data) ? $extra_data : []);
+            $response->addJSON($extra_data ?? []);
 
             if (! empty($analyzed_sql_results['is_select']) &&
                     ! isset($extra_data['error'])) {
-                $url_query = isset($url_query) ? $url_query : null;
+                $url_query = $url_query ?? null;
 
                 $displayParts = [
                     'edit_lnk' => null,
@@ -1495,7 +1495,7 @@ class Sql
                         $sql_query,
                         $db,
                         $table,
-                        isset($complete_query) ? $complete_query : $sql_query,
+                        $complete_query ?? $sql_query,
                         $cfgBookmark['user']
                     );
                 }
@@ -1850,8 +1850,8 @@ class Sql
         }
 
         // Should be initialized these parameters before parsing
-        $showtable = isset($showtable) ? $showtable : null;
-        $url_query = isset($url_query) ? $url_query : null;
+        $showtable = $showtable ?? null;
+        $url_query = $url_query ?? null;
 
         $response = Response::getInstance();
         $header   = $response->getHeader();
@@ -1867,7 +1867,7 @@ class Sql
 
         $updatableView = false;
 
-        $statement = isset($analyzed_sql_results['statement']) ? $analyzed_sql_results['statement'] : null;
+        $statement = $analyzed_sql_results['statement'] ?? null;
         if ($statement instanceof SelectStatement) {
             if (! empty($statement->expr)) {
                 if ($statement->expr[0]->expr === '*') {
@@ -1970,16 +1970,16 @@ class Sql
         }
 
         $previousUpdateQueryHtml = $this->getHtmlForPreviousUpdateQuery(
-            isset($disp_query) ? $disp_query : null,
+            $disp_query ?? null,
             (bool) $GLOBALS['cfg']['ShowSQL'],
-            isset($sql_data) ? $sql_data : null,
-            isset($disp_message) ? $disp_message : null
+            $sql_data ?? null,
+            $disp_message ?? null
         );
 
         $profilingChartHtml = $this->getHtmlForProfilingChart(
             $url_query,
             $db,
-            isset($profiling_results) ? $profiling_results : []
+            $profiling_results ?? []
         );
 
         $missingUniqueColumnMessage = $this->getMessageIfMissingColumnIndex(
@@ -2005,8 +2005,8 @@ class Sql
         );
 
         $indexesProblemsHtml = $this->getHtmlForIndexesProblems(
-            isset($query_type) ? $query_type : null,
-            isset($selectedTables) ? $selectedTables : null,
+            $query_type ?? null,
+            $selectedTables ?? null,
             $db
         );
 
@@ -2019,7 +2019,7 @@ class Sql
                 $sql_query,
                 $db,
                 $table,
-                isset($complete_query) ? $complete_query : $sql_query,
+                $complete_query ?? $sql_query,
                 $cfgBookmark['user']
             );
         }
@@ -2039,27 +2039,27 @@ class Sql
     /**
      * Function to execute the query and send the response
      *
-     * @param array          $analyzed_sql_results   analysed sql results
-     * @param bool           $is_gotofile            whether goto file or not
-     * @param string         $db                     current database
-     * @param string         $table                  current table
-     * @param bool|null      $find_real_end          whether to find real end or not
-     * @param string         $sql_query_for_bookmark the sql query to be stored as bookmark
-     * @param array|null     $extra_data             extra data
-     * @param string         $message_to_show        message to show
-     * @param string         $message                message
-     * @param array|null     $sql_data               sql data
-     * @param string         $goto                   goto page url
-     * @param string         $pmaThemeImage          uri of the PMA theme image
-     * @param string         $disp_query             display query
-     * @param Message|string $disp_message           display message
-     * @param string         $query_type             query type
-     * @param string         $sql_query              sql query
-     * @param array|null     $selectedTables         array of table names selected from the
-     *                                               database structure page, for an action
-     *                                               like check table, optimize table,
-     *                                               analyze table or repair table
-     * @param string         $complete_query         complete query
+     * @param array|null          $analyzed_sql_results   analysed sql results
+     * @param bool                $is_gotofile            whether goto file or not
+     * @param string              $db                     current database
+     * @param string|null         $table                  current table
+     * @param bool|null           $find_real_end          whether to find real end or not
+     * @param string|null         $sql_query_for_bookmark the sql query to be stored as bookmark
+     * @param array|null          $extra_data             extra data
+     * @param string|null         $message_to_show        message to show
+     * @param Message|string|null $message                message
+     * @param array|null          $sql_data               sql data
+     * @param string              $goto                   goto page url
+     * @param string              $pmaThemeImage          uri of the PMA theme image
+     * @param string|null         $disp_query             display query
+     * @param Message|string|null $disp_message           display message
+     * @param string|null         $query_type             query type
+     * @param string              $sql_query              sql query
+     * @param array|null          $selectedTables         array of table names selected from the
+     *                                                    database structure page, for an action
+     *                                                    like check table, optimize table,
+     *                                                    analyze table or repair table
+     * @param string|null         $complete_query         complete query
      *
      * @return void
      */
@@ -2222,9 +2222,9 @@ class Sql
             $is_gotofile,
             $db,
             $table,
-            isset($find_real_end) ? $find_real_end : null,
-            isset($sql_query_for_bookmark) ? $sql_query_for_bookmark : null,
-            isset($extra_data) ? $extra_data : null
+            $find_real_end ?? null,
+            $sql_query_for_bookmark ?? null,
+            $extra_data ?? null
         );
 
         if ($GLOBALS['dbi']->moreResults()) {
@@ -2241,36 +2241,36 @@ class Sql
                 $analyzed_sql_results,
                 $db,
                 $table,
-                isset($message_to_show) ? $message_to_show : null,
+                $message_to_show ?? null,
                 $num_rows,
                 $displayResultsObject,
                 $extra_data,
                 $pmaThemeImage,
                 $profiling_results,
-                isset($result) ? $result : null,
+                $result ?? null,
                 $sql_query,
-                isset($complete_query) ? $complete_query : null
+                $complete_query ?? null
             );
         } else {
             // At least one row is returned -> displays a table with results
             $html_output = $this->getQueryResponseForResultsReturned(
-                isset($result) ? $result : null,
+                $result ?? null,
                 $analyzed_sql_results,
                 $db,
                 $table,
-                isset($message) ? $message : null,
-                isset($sql_data) ? $sql_data : null,
+                $message ?? null,
+                $sql_data ?? null,
                 $displayResultsObject,
                 $pmaThemeImage,
                 $unlim_num_rows,
                 $num_rows,
-                isset($disp_query) ? $disp_query : null,
-                isset($disp_message) ? $disp_message : null,
+                $disp_query ?? null,
+                $disp_message ?? null,
                 $profiling_results,
-                isset($query_type) ? $query_type : null,
-                isset($selectedTables) ? $selectedTables : null,
+                $query_type ?? null,
+                $selectedTables ?? null,
                 $sql_query,
-                isset($complete_query) ? $complete_query : null
+                $complete_query ?? null
             );
         }
 
@@ -2299,7 +2299,7 @@ class Sql
             $max_rows = $_SESSION['tmpval']['max_rows'];
         }
 
-        return @((ceil($number_of_line / $max_rows) - 1) * $max_rows);
+        return @(ceil($number_of_line / $max_rows) - 1) * $max_rows;
     }
 
     /**

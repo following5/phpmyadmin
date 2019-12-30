@@ -3,7 +3,6 @@
  * Holds the PhpMyAdmin\MultSubmits class
  *
  * @usedby  mult_submits.inc.php
- *
  * @package PhpMyAdmin
  */
 declare(strict_types=1);
@@ -374,7 +373,7 @@ class MultSubmits
             $_REQUEST['pos'] = $sql->calculatePosForLastPage(
                 $db,
                 $table,
-                isset($_REQUEST['pos']) ? $_REQUEST['pos'] : null
+                $_REQUEST['pos'] ?? null
             );
         }
 
@@ -641,7 +640,7 @@ class MultSubmits
             unset($fullQueryViews);
         }
 
-        $fullQueryViews = isset($fullQueryViews) ? $fullQueryViews : null;
+        $fullQueryViews = $fullQueryViews ?? null;
 
         return [
             $fullQuery,

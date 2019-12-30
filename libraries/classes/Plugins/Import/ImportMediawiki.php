@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace PhpMyAdmin\Plugins\Import;
 
-use PhpMyAdmin\Import;
 use PhpMyAdmin\Message;
 use PhpMyAdmin\Plugins\ImportPlugin;
 use PhpMyAdmin\Properties\Plugins\ImportPluginProperties;
@@ -299,12 +298,11 @@ class ImportMediawiki extends ImportPlugin
      *                        table headers $table[2] -
      *                        array[][] of table content
      *                        rows </code>
-     *
      * @param array $sql_data 2-element array with sql data
      *
-     * @global bool $analyze whether to scan for column types
-     *
      * @return void
+     *
+     * @global bool $analyze whether to scan for column types
      */
     private function _importDataOneTable(array $table, array &$sql_data)
     {
@@ -387,9 +385,9 @@ class ImportMediawiki extends ImportPlugin
      *                        )
      * @param array $sql_data 2-element array with sql data
      *
-     * @global string $db      name of the database to import in
-     *
      * @return void
+     *
+     * @global string $db      name of the database to import in
      */
     private function _executeImportTables(array &$tables, array &$analyses, array &$sql_data)
     {

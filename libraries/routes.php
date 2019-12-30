@@ -1,6 +1,7 @@
 <?php
 /**
  * Route definition file
+ *
  * @package PhpMyAdmin
  */
 declare(strict_types=1);
@@ -10,26 +11,44 @@ use PhpMyAdmin\Controllers\AjaxController;
 use PhpMyAdmin\Controllers\BrowseForeignersController;
 use PhpMyAdmin\Controllers\ChangeLogController;
 use PhpMyAdmin\Controllers\CheckRelationsController;
+use PhpMyAdmin\Controllers\Database\CentralColumnsController;
 use PhpMyAdmin\Controllers\Database\DataDictionaryController;
 use PhpMyAdmin\Controllers\Database\DesignerController;
 use PhpMyAdmin\Controllers\Database\EventsController;
+use PhpMyAdmin\Controllers\Database\ImportController as DatabaseImportController;
 use PhpMyAdmin\Controllers\Database\MultiTableQueryController;
 use PhpMyAdmin\Controllers\Database\OperationsController;
 use PhpMyAdmin\Controllers\Database\QueryByExampleController;
+use PhpMyAdmin\Controllers\Database\RoutinesController;
 use PhpMyAdmin\Controllers\Database\SearchController;
+use PhpMyAdmin\Controllers\Database\SqlAutoCompleteController;
+use PhpMyAdmin\Controllers\Database\SqlFormatController;
 use PhpMyAdmin\Controllers\Database\StructureController;
+use PhpMyAdmin\Controllers\Database\TrackingController;
+use PhpMyAdmin\Controllers\Database\TriggersController;
 use PhpMyAdmin\Controllers\ErrorReportController;
+use PhpMyAdmin\Controllers\ExportController;
 use PhpMyAdmin\Controllers\GisDataEditorController;
 use PhpMyAdmin\Controllers\HomeController;
+use PhpMyAdmin\Controllers\ImportController;
 use PhpMyAdmin\Controllers\ImportStatusController;
 use PhpMyAdmin\Controllers\LicenseController;
 use PhpMyAdmin\Controllers\LintController;
+use PhpMyAdmin\Controllers\LogoutController;
+use PhpMyAdmin\Controllers\NavigationController;
+use PhpMyAdmin\Controllers\NormalizationController;
 use PhpMyAdmin\Controllers\PhpInfoController;
+use PhpMyAdmin\Controllers\Preferences\FormsController;
+use PhpMyAdmin\Controllers\Preferences\ManageController;
+use PhpMyAdmin\Controllers\Preferences\TwoFactorController;
+use PhpMyAdmin\Controllers\SchemaExportController;
 use PhpMyAdmin\Controllers\Server\BinlogController;
 use PhpMyAdmin\Controllers\Server\CollationsController;
 use PhpMyAdmin\Controllers\Server\DatabasesController;
 use PhpMyAdmin\Controllers\Server\EnginesController;
+use PhpMyAdmin\Controllers\Server\ImportController as ServerImportController;
 use PhpMyAdmin\Controllers\Server\PluginsController;
+use PhpMyAdmin\Controllers\Server\PrivilegesController;
 use PhpMyAdmin\Controllers\Server\ReplicationController;
 use PhpMyAdmin\Controllers\Server\SqlController;
 use PhpMyAdmin\Controllers\Server\Status\AdvisorController;
@@ -38,7 +57,24 @@ use PhpMyAdmin\Controllers\Server\Status\ProcessesController;
 use PhpMyAdmin\Controllers\Server\Status\QueriesController;
 use PhpMyAdmin\Controllers\Server\Status\StatusController;
 use PhpMyAdmin\Controllers\Server\Status\VariablesController as StatusVariables;
+use PhpMyAdmin\Controllers\Server\UserGroupsController;
 use PhpMyAdmin\Controllers\Server\VariablesController;
+use PhpMyAdmin\Controllers\Table\AddFieldController;
+use PhpMyAdmin\Controllers\Table\ChartController;
+use PhpMyAdmin\Controllers\Table\CreateController;
+use PhpMyAdmin\Controllers\Table\FindReplaceController;
+use PhpMyAdmin\Controllers\Table\GetFieldController;
+use PhpMyAdmin\Controllers\Table\GisVisualizationController;
+use PhpMyAdmin\Controllers\Table\ImportController as TableImportController;
+use PhpMyAdmin\Controllers\Table\IndexesController;
+use PhpMyAdmin\Controllers\Table\OperationsController as TableOperationsController;
+use PhpMyAdmin\Controllers\Table\RecentFavoriteController;
+use PhpMyAdmin\Controllers\Table\RelationController;
+use PhpMyAdmin\Controllers\Table\RowActionController;
+use PhpMyAdmin\Controllers\Table\SearchController as TableSearchController;
+use PhpMyAdmin\Controllers\Table\TrackingController as TableTrackingController;
+use PhpMyAdmin\Controllers\Table\TriggersController as TableTriggersController;
+use PhpMyAdmin\Controllers\Table\ZoomSearchController;
 use PhpMyAdmin\Controllers\ThemesController;
 use PhpMyAdmin\Controllers\TransformationOverviewController;
 use PhpMyAdmin\Controllers\TransformationWrapperController;
@@ -129,8 +165,10 @@ return function (RouteCollector $routes) use ($containerBuilder, $response) {
         ]));
     });
     $routes->addGroup('/database', function (RouteCollector $routes) use ($containerBuilder, $response) {
-        $routes->addRoute(['GET', 'POST'], '/central_columns', function () {
-            require_once ROOT_PATH . 'libraries/entry_points/database/central_columns.php';
+        $routes->addRoute(['GET', 'POST'], '/central-columns', function () use ($containerBuilder) {
+            /** @var CentralColumnsController $controller */
+            $controller = $containerBuilder->get(CentralColumnsController::class);
+            $controller->index();
         });
         $routes->get('/data-dictionary/{database}', function (array $vars) use ($containerBuilder, $response) {
             /** @var DataDictionaryController $controller */
@@ -150,8 +188,10 @@ return function (RouteCollector $routes) use ($containerBuilder, $response) {
         $routes->addRoute(['GET', 'POST'], '/export', function () {
             require_once ROOT_PATH . 'libraries/entry_points/database/export.php';
         });
-        $routes->addRoute(['GET', 'POST'], '/import', function () {
-            require_once ROOT_PATH . 'libraries/entry_points/database/import.php';
+        $routes->addRoute(['GET', 'POST'], '/import', function () use ($containerBuilder) {
+            /** @var DatabaseImportController $controller */
+            $controller = $containerBuilder->get(DatabaseImportController::class);
+            $controller->index();
         });
         $routes->addGroup('/multi_table_query', function (RouteCollector $routes) use ($containerBuilder, $response) {
             /** @var MultiTableQueryController $controller */
@@ -182,23 +222,31 @@ return function (RouteCollector $routes) use ($containerBuilder, $response) {
             $controller = $containerBuilder->get(QueryByExampleController::class);
             $controller->index();
         });
-        $routes->addRoute(['GET', 'POST'], '/routines', function () {
-            require_once ROOT_PATH . 'libraries/entry_points/database/routines.php';
+        $routes->addRoute(['GET', 'POST'], '/routines', function () use ($containerBuilder) {
+            /** @var RoutinesController $controller */
+            $controller = $containerBuilder->get(RoutinesController::class);
+            $controller->index([
+                'type' => $_REQUEST['type'] ?? null,
+            ]);
         });
         $routes->addRoute(['GET', 'POST'], '/search', function () use ($containerBuilder) {
             /** @var SearchController $controller */
             $controller = $containerBuilder->get(SearchController::class);
             $controller->index();
         });
-        $routes->addGroup('/sql', function (RouteCollector $routes) {
+        $routes->addGroup('/sql', function (RouteCollector $routes) use ($containerBuilder, $response) {
             $routes->addRoute(['GET', 'POST'], '', function () {
                 require_once ROOT_PATH . 'libraries/entry_points/database/sql.php';
             });
-            $routes->post('/autocomplete', function () {
-                require_once ROOT_PATH . 'libraries/entry_points/database/sql/autocomplete.php';
+            $routes->post('/autocomplete', function () use ($containerBuilder, $response) {
+                /** @var SqlAutoCompleteController $controller */
+                $controller = $containerBuilder->get(SqlAutoCompleteController::class);
+                $response->addJSON($controller->index());
             });
-            $routes->post('/format', function () {
-                require_once ROOT_PATH . 'libraries/entry_points/database/sql/format.php';
+            $routes->post('/format', function () use ($containerBuilder, $response) {
+                /** @var SqlFormatController $controller */
+                $controller = $containerBuilder->get(SqlFormatController::class);
+                $response->addJSON($controller->index(['sql' => $_POST['sql'] ?? null]));
             });
         });
         $routes->addGroup('/structure', function (RouteCollector $routes) use ($containerBuilder, $response) {
@@ -229,11 +277,15 @@ return function (RouteCollector $routes) use ($containerBuilder, $response) {
                 ]));
             });
         });
-        $routes->addRoute(['GET', 'POST'], '/tracking', function () {
-            require_once ROOT_PATH . 'libraries/entry_points/database/tracking.php';
+        $routes->addRoute(['GET', 'POST'], '/tracking', function () use ($containerBuilder) {
+            /** @var TrackingController $controller */
+            $controller = $containerBuilder->get(TrackingController::class);
+            $controller->index();
         });
-        $routes->addRoute(['GET', 'POST'], '/triggers', function () {
-            require_once ROOT_PATH . 'libraries/entry_points/database/triggers.php';
+        $routes->addRoute(['GET', 'POST'], '/triggers', function () use ($containerBuilder) {
+            /** @var TriggersController $controller */
+            $controller = $containerBuilder->get(TriggersController::class);
+            $controller->index();
         });
     });
     $routes->addRoute(['GET', 'POST'], '/error-report', function () use ($containerBuilder) {
@@ -241,16 +293,20 @@ return function (RouteCollector $routes) use ($containerBuilder, $response) {
         $controller = $containerBuilder->get(ErrorReportController::class);
         $controller->index();
     });
-    $routes->addRoute(['GET', 'POST'], '/export', function () {
-        require_once ROOT_PATH . 'libraries/entry_points/export.php';
+    $routes->addRoute(['GET', 'POST'], '/export', function () use ($containerBuilder) {
+        /** @var ExportController $controller */
+        $controller = $containerBuilder->get(ExportController::class);
+        $controller->index();
     });
     $routes->addRoute(['GET', 'POST'], '/gis-data-editor', function () use ($containerBuilder, $response) {
         /** @var GisDataEditorController $controller */
         $controller = $containerBuilder->get(GisDataEditorController::class);
         $response->addJSON($controller->index());
     });
-    $routes->addRoute(['GET', 'POST'], '/import', function () {
-        require_once ROOT_PATH . 'libraries/entry_points/import.php';
+    $routes->addRoute(['GET', 'POST'], '/import', function () use ($containerBuilder) {
+        /** @var ImportController $controller */
+        $controller = $containerBuilder->get(ImportController::class);
+        $controller->index();
     });
     $routes->addRoute(['GET', 'POST'], '/import-status', function () use ($containerBuilder) {
         /** @var ImportStatusController $controller */
@@ -270,33 +326,47 @@ return function (RouteCollector $routes) use ($containerBuilder, $response) {
             'options' => $_POST['options'] ?? null,
         ]);
     });
-    $routes->addRoute(['GET', 'POST'], '/logout', function () {
-        require_once ROOT_PATH . 'libraries/entry_points/logout.php';
+    $routes->addRoute(['GET', 'POST'], '/logout', function () use ($containerBuilder) {
+        /** @var LogoutController $controller */
+        $controller = $containerBuilder->get(LogoutController::class);
+        $controller->index();
     });
-    $routes->addRoute(['GET', 'POST'], '/navigation', function () {
-        require_once ROOT_PATH . 'libraries/entry_points/navigation.php';
+    $routes->addRoute(['GET', 'POST'], '/navigation', function () use ($containerBuilder) {
+        /** @var NavigationController $controller */
+        $controller = $containerBuilder->get(NavigationController::class);
+        $controller->index();
     });
-    $routes->addRoute(['GET', 'POST'], '/normalization', function () {
-        require_once ROOT_PATH . 'libraries/entry_points/normalization.php';
+    $routes->addRoute(['GET', 'POST'], '/normalization', function () use ($containerBuilder) {
+        /** @var NormalizationController $controller */
+        $controller = $containerBuilder->get(NormalizationController::class);
+        $controller->index();
     });
     $routes->get('/phpinfo', function () use ($containerBuilder) {
         /** @var PhpInfoController $controller */
         $controller = $containerBuilder->get(PhpInfoController::class);
         $controller->index();
     });
-    $routes->addGroup('/preferences', function (RouteCollector $routes) {
-        $routes->addRoute(['GET', 'POST'], '/forms', function () {
-            require_once ROOT_PATH . 'libraries/entry_points/preferences/forms.php';
+    $routes->addGroup('/preferences', function (RouteCollector $routes) use ($containerBuilder) {
+        $routes->addRoute(['GET', 'POST'], '/forms', function () use ($containerBuilder) {
+            /** @var FormsController $controller */
+            $controller = $containerBuilder->get(FormsController::class);
+            $controller->index();
         });
-        $routes->addRoute(['GET', 'POST'], '/manage', function () {
-            require_once ROOT_PATH . 'libraries/entry_points/preferences/manage.php';
+        $routes->addRoute(['GET', 'POST'], '/manage', function () use ($containerBuilder) {
+            /** @var ManageController $controller */
+            $controller = $containerBuilder->get(ManageController::class);
+            $controller->index();
         });
-        $routes->addRoute(['GET', 'POST'], '/twofactor', function () {
-            require_once ROOT_PATH . 'libraries/entry_points/preferences/twofactor.php';
+        $routes->addRoute(['GET', 'POST'], '/two-factor', function () use ($containerBuilder) {
+            /** @var TwoFactorController $controller */
+            $controller = $containerBuilder->get(TwoFactorController::class);
+            $controller->index();
         });
     });
-    $routes->addRoute(['GET', 'POST'], '/schema_export', function () {
-        require_once ROOT_PATH . 'libraries/entry_points/schema_export.php';
+    $routes->addRoute(['GET', 'POST'], '/schema-export', function () use ($containerBuilder) {
+        /** @var SchemaExportController $controller */
+        $controller = $containerBuilder->get(SchemaExportController::class);
+        $controller->index();
     });
     $routes->addGroup('/server', function (RouteCollector $routes) use ($containerBuilder, $response) {
         $routes->addRoute(['GET', 'POST'], '/binlog', function () use ($containerBuilder, $response) {
@@ -350,16 +420,20 @@ return function (RouteCollector $routes) use ($containerBuilder, $response) {
         $routes->addRoute(['GET', 'POST'], '/export', function () {
             require_once ROOT_PATH . 'libraries/entry_points/server/export.php';
         });
-        $routes->addRoute(['GET', 'POST'], '/import', function () {
-            require_once ROOT_PATH . 'libraries/entry_points/server/import.php';
+        $routes->addRoute(['GET', 'POST'], '/import', function () use ($containerBuilder) {
+            /** @var ServerImportController $controller */
+            $controller = $containerBuilder->get(ServerImportController::class);
+            $controller->index();
         });
         $routes->get('/plugins', function () use ($containerBuilder, $response) {
             /** @var PluginsController $controller */
             $controller = $containerBuilder->get(PluginsController::class);
             $response->addHTML($controller->index());
         });
-        $routes->addRoute(['GET', 'POST'], '/privileges', function () {
-            require_once ROOT_PATH . 'libraries/entry_points/server/privileges.php';
+        $routes->addRoute(['GET', 'POST'], '/privileges', function () use ($containerBuilder) {
+            /** @var PrivilegesController $controller */
+            $controller = $containerBuilder->get(PrivilegesController::class);
+            $controller->index();
         });
         $routes->addRoute(['GET', 'POST'], '/replication', function () use ($containerBuilder, $response) {
             /** @var ReplicationController $controller */
@@ -467,8 +541,10 @@ return function (RouteCollector $routes) use ($containerBuilder, $response) {
                 ]));
             });
         });
-        $routes->addRoute(['GET', 'POST'], '/user_groups', function () {
-            require_once ROOT_PATH . 'libraries/entry_points/server/user_groups.php';
+        $routes->addRoute(['GET', 'POST'], '/user-groups', function () use ($containerBuilder) {
+            /** @var UserGroupsController $controller */
+            $controller = $containerBuilder->get(UserGroupsController::class);
+            $controller->index();
         });
         $routes->addGroup('/variables', function (RouteCollector $routes) use ($containerBuilder, $response) {
             /** @var VariablesController $controller */
@@ -492,54 +568,80 @@ return function (RouteCollector $routes) use ($containerBuilder, $response) {
     $routes->addRoute(['GET', 'POST'], '/sql', function () {
         require_once ROOT_PATH . 'libraries/entry_points/sql.php';
     });
-    $routes->addGroup('/table', function (RouteCollector $routes) {
-        $routes->addRoute(['GET', 'POST'], '/addfield', function () {
-            require_once ROOT_PATH . 'libraries/entry_points/table/addfield.php';
+    $routes->addGroup('/table', function (RouteCollector $routes) use ($containerBuilder) {
+        $routes->addRoute(['GET', 'POST'], '/add-field', function () use ($containerBuilder) {
+            /** @var AddFieldController $controller */
+            $controller = $containerBuilder->get(AddFieldController::class);
+            $controller->index();
         });
         $routes->addRoute(['GET', 'POST'], '/change', function () {
             require_once ROOT_PATH . 'libraries/entry_points/table/change.php';
         });
-        $routes->addRoute(['GET', 'POST'], '/chart', function () {
-            require_once ROOT_PATH . 'libraries/entry_points/table/chart.php';
+        $routes->addRoute(['GET', 'POST'], '/chart', function () use ($containerBuilder) {
+            /** @var ChartController $controller */
+            $controller = $containerBuilder->get(ChartController::class);
+            $controller->index();
         });
-        $routes->addRoute(['GET', 'POST'], '/create', function () {
-            require_once ROOT_PATH . 'libraries/entry_points/table/create.php';
+        $routes->addRoute(['GET', 'POST'], '/create', function () use ($containerBuilder) {
+            /** @var CreateController $controller */
+            $controller = $containerBuilder->get(CreateController::class);
+            $controller->index();
         });
         $routes->addRoute(['GET', 'POST'], '/export', function () {
             require_once ROOT_PATH . 'libraries/entry_points/table/export.php';
         });
-        $routes->addRoute(['GET', 'POST'], '/find_replace', function () {
-            require_once ROOT_PATH . 'libraries/entry_points/table/find_replace.php';
+        $routes->addRoute(['GET', 'POST'], '/find-replace', function () use ($containerBuilder) {
+            /** @var FindReplaceController $controller */
+            $controller = $containerBuilder->get(FindReplaceController::class);
+            $controller->index();
         });
-        $routes->addRoute(['GET', 'POST'], '/get_field', function () {
-            require_once ROOT_PATH . 'libraries/entry_points/table/get_field.php';
+        $routes->addRoute(['GET', 'POST'], '/get-field', function () use ($containerBuilder) {
+            /** @var GetFieldController $controller */
+            $controller = $containerBuilder->get(GetFieldController::class);
+            $controller->index();
         });
-        $routes->addRoute(['GET', 'POST'], '/gis_visualization', function () {
-            require_once ROOT_PATH . 'libraries/entry_points/table/gis_visualization.php';
+        $routes->addRoute(['GET', 'POST'], '/gis-visualization', function () use ($containerBuilder) {
+            /** @var GisVisualizationController $controller */
+            $controller = $containerBuilder->get(GisVisualizationController::class);
+            $controller->index();
         });
-        $routes->addRoute(['GET', 'POST'], '/import', function () {
-            require_once ROOT_PATH . 'libraries/entry_points/table/import.php';
+        $routes->addRoute(['GET', 'POST'], '/import', function () use ($containerBuilder) {
+            /** @var TableImportController $controller */
+            $controller = $containerBuilder->get(TableImportController::class);
+            $controller->index();
         });
-        $routes->addRoute(['GET', 'POST'], '/indexes', function () {
-            require_once ROOT_PATH . 'libraries/entry_points/table/indexes.php';
+        $routes->addRoute(['GET', 'POST'], '/indexes', function () use ($containerBuilder) {
+            /** @var IndexesController $controller */
+            $controller = $containerBuilder->get(IndexesController::class);
+            $controller->index();
         });
-        $routes->addRoute(['GET', 'POST'], '/operations', function () {
-            require_once ROOT_PATH . 'libraries/entry_points/table/operations.php';
+        $routes->addRoute(['GET', 'POST'], '/operations', function () use ($containerBuilder) {
+            /** @var TableOperationsController $controller */
+            $controller = $containerBuilder->get(TableOperationsController::class);
+            $controller->index();
         });
-        $routes->addRoute(['GET', 'POST'], '/recent_favorite', function () {
-            require_once ROOT_PATH . 'libraries/entry_points/table/recent_favorite.php';
+        $routes->addRoute(['GET', 'POST'], '/recent-favorite', function () use ($containerBuilder) {
+            /** @var RecentFavoriteController $controller */
+            $controller = $containerBuilder->get(RecentFavoriteController::class);
+            $controller->index();
         });
-        $routes->addRoute(['GET', 'POST'], '/relation', function () {
-            require_once ROOT_PATH . 'libraries/entry_points/table/relation.php';
+        $routes->addRoute(['GET', 'POST'], '/relation', function () use ($containerBuilder) {
+            /** @var RelationController $controller */
+            $controller = $containerBuilder->get(RelationController::class);
+            $controller->index();
         });
         $routes->addRoute(['GET', 'POST'], '/replace', function () {
             require_once ROOT_PATH . 'libraries/entry_points/table/replace.php';
         });
-        $routes->addRoute(['GET', 'POST'], '/row_action', function () {
-            require_once ROOT_PATH . 'libraries/entry_points/table/row_action.php';
+        $routes->addRoute(['GET', 'POST'], '/row-action', function () use ($containerBuilder) {
+            /** @var RowActionController $controller */
+            $controller = $containerBuilder->get(RowActionController::class);
+            $controller->index();
         });
-        $routes->addRoute(['GET', 'POST'], '/search', function () {
-            require_once ROOT_PATH . 'libraries/entry_points/table/select.php';
+        $routes->addRoute(['GET', 'POST'], '/search', function () use ($containerBuilder) {
+            /** @var TableSearchController $controller */
+            $controller = $containerBuilder->get(TableSearchController::class);
+            $controller->index();
         });
         $routes->addRoute(['GET', 'POST'], '/sql', function () {
             require_once ROOT_PATH . 'libraries/entry_points/table/sql.php';
@@ -547,14 +649,20 @@ return function (RouteCollector $routes) use ($containerBuilder, $response) {
         $routes->addRoute(['GET', 'POST'], '/structure', function () {
             require_once ROOT_PATH . 'libraries/entry_points/table/structure.php';
         });
-        $routes->addRoute(['GET', 'POST'], '/tracking', function () {
-            require_once ROOT_PATH . 'libraries/entry_points/table/tracking.php';
+        $routes->addRoute(['GET', 'POST'], '/tracking', function () use ($containerBuilder) {
+            /** @var TableTrackingController $controller */
+            $controller = $containerBuilder->get(TableTrackingController::class);
+            $controller->index();
         });
-        $routes->addRoute(['GET', 'POST'], '/triggers', function () {
-            require_once ROOT_PATH . 'libraries/entry_points/database/triggers.php';
+        $routes->addRoute(['GET', 'POST'], '/triggers', function () use ($containerBuilder) {
+            /** @var TableTriggersController $controller */
+            $controller = $containerBuilder->get(TableTriggersController::class);
+            $controller->index();
         });
-        $routes->addRoute(['GET', 'POST'], '/zoom_select', function () {
-            require_once ROOT_PATH . 'libraries/entry_points/table/zoom_select.php';
+        $routes->addRoute(['GET', 'POST'], '/zoom-search', function () use ($containerBuilder) {
+            /** @var ZoomSearchController $controller */
+            $controller = $containerBuilder->get(ZoomSearchController::class);
+            $controller->index();
         });
     });
     $routes->get('/themes', function () use ($containerBuilder, $response) {

@@ -33,8 +33,6 @@ class Tracking
     protected $relation;
 
     /**
-     * Tracking constructor.
-     *
      * @param SqlQueryForm $sqlQueryForm SqlQueryForm instance
      * @param Template     $template     Template instance
      * @param Relation     $relation     Relation instance
@@ -173,7 +171,7 @@ class Tracking
             'table' => $GLOBALS['table'],
             'selectable_tables_num_rows' => $selectableTablesNumRows,
             'selectable_tables_entries' => $selectableTablesEntries,
-            'selected_table' => isset($_POST['table']) ? $_POST['table'] : null,
+            'selected_table' => $_POST['table'] ?? null,
             'last_version' => $lastVersion,
             'versions' => $versions,
             'type' => $type,

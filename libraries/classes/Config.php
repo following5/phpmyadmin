@@ -15,9 +15,7 @@ use PhpMyAdmin\Error;
 use PhpMyAdmin\LanguageManager;
 use PhpMyAdmin\Message;
 use PhpMyAdmin\ThemeManager;
-use PhpMyAdmin\Url;
 use PhpMyAdmin\UserPreferences;
-use PhpMyAdmin\Util;
 use PhpMyAdmin\Utils\HttpRequest;
 
 /**
@@ -357,7 +355,9 @@ class Config
 
     /**
      * detects if Git revision
+     *
      * @param string $git_location (optional) verified git directory
+     *
      * @return boolean
      */
     public function isGitRevision(&$git_location = null): bool
@@ -912,9 +912,7 @@ class Config
         $userPreferences = new UserPreferences();
         // index.php should load these settings, so that phpmyadmin.css.php
         // will have everything available in session cache
-        $server = isset($GLOBALS['server'])
-            ? $GLOBALS['server']
-            : (! empty($GLOBALS['cfg']['ServerDefault'])
+        $server = $GLOBALS['server'] ?? (! empty($GLOBALS['cfg']['ServerDefault'])
                 ? $GLOBALS['cfg']['ServerDefault']
                 : 0);
         $cache_key = 'server_' . $server;
@@ -1197,7 +1195,7 @@ class Config
      *
      * @param string $setting config setting
      *
-     * @return mixed value
+     * @return mixed|null value
      */
     public function get(string $setting)
     {
@@ -1519,22 +1517,27 @@ class Config
      *
      * @param string $cookieName The name of the cookie to get
      *
-     * @return mixed result of getCookie()
+     * @return mixed|null result of getCookie()
      */
     public function getCookie(string $cookieName)
     {
-        return @$_COOKIE[$this->getCookieName($cookieName)];
+        if (isset($_COOKIE[$this->getCookieName($cookieName)])) {
+            return $_COOKIE[$this->getCookieName($cookieName)];
+        } else {
+            return null;
+        }
     }
 
     /**
      * Get the real cookie name
      *
      * @param string $cookieName The name of the cookie
+     *
      * @return string
      */
     public function getCookieName(string $cookieName): string
     {
-        return $cookieName . ( ($this->isHttps()) ? '_https' : '' );
+        return $cookieName . ( $this->isHttps() ? '_https' : '' );
     }
 
     /**

@@ -38,8 +38,8 @@ class EncodingTest extends TestCase
      * Test for Encoding::convertString
      *
      * @return void
-     * @test
      *
+     * @test
      * @group medium
      */
     public function testNoConversion()
@@ -84,6 +84,9 @@ class EncodingTest extends TestCase
     }
 
     /**
+     * This group is used on debian packaging to exclude the test
+     * @see https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=854821#27
+     * @group extension-iconv
      * @return void
      */
     public function testIconv()
@@ -139,6 +142,7 @@ class EncodingTest extends TestCase
      * Test for kanjiChangeOrder
      *
      * @return void
+     *
      * @test
      */
     public function testChangeOrder()
@@ -154,6 +158,7 @@ class EncodingTest extends TestCase
      * Test for Encoding::kanjiStrConv
      *
      * @return void
+     *
      * @test
      */
     public function testKanjiStrConv()
@@ -186,6 +191,7 @@ class EncodingTest extends TestCase
      * Test for Encoding::kanjiFileConv
      *
      * @return void
+     *
      * @test
      */
     public function testFileConv()
@@ -212,6 +218,7 @@ class EncodingTest extends TestCase
      * Test for Encoding::kanjiEncodingForm
      *
      * @return void
+     *
      * @test
      */
     public function testEncodingForm()

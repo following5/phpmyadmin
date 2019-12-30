@@ -181,7 +181,6 @@ class Util
      * @param array  $table the table infos
      *
      * @return int the possibly modified row count
-     *
      */
     private static function _checkRowCount($db, array $table)
     {
@@ -387,7 +386,7 @@ class Util
 
         // '0' is also empty for php :-(
         if (strlen((string) $a_name) > 0 && $a_name !== '*') {
-            return $quote . str_replace($quote, $escapeChar . $quote, $a_name) . $quote;
+            return $quote . str_replace($quote, $escapeChar . $quote, (string) $a_name) . $quote;
         }
 
         return $a_name;
@@ -396,9 +395,9 @@ class Util
     /**
      * Verifies if current MySQL server supports profiling
      *
-     * @access  public
-     *
      * @return boolean whether profiling is supported
+     *
+     * @access  public
      */
     public static function profilingSupported()
     {
@@ -709,7 +708,7 @@ class Util
         ];
 
         if ($format == '') {
-            /* l10n: See https://secure.php.net/manual/en/function.strftime.php */
+            /* l10n: See https://www.php.net/manual/en/function.strftime.php */
             $format = __('%B %d, %Y at %I:%M %p');
         }
 
@@ -862,9 +861,9 @@ class Util
      *                                             none
      * @param array|null     $analyzed_sql_results the analyzed query
      *
-     * @access public
-     *
      * @return array the calculated condition and whether condition is unique
+     *
+     * @access public
      */
     public static function getUniqueCondition(
         $handle,
@@ -954,7 +953,7 @@ class Util
                     && ($meta->type != 'real')
                 ) {
                     $con_val = '= ' . $row[$i];
-                } elseif ((($meta->type == 'blob') || ($meta->type == 'string'))
+                } elseif (($meta->type == 'blob') || ($meta->type == 'string')
                     && false !== stripos($field_flags, 'BINARY')
                     && ! empty($row[$i])
                 ) {
@@ -1088,8 +1087,8 @@ class Util
         $prompt = ''
     ) {
         $increment = floor($nbTotalPage / $percent);
-        $pageNowMinusRange = ($pageNow - $range);
-        $pageNowPlusRange = ($pageNow + $range);
+        $pageNowMinusRange = $pageNow - $range;
+        $pageNowPlusRange = $pageNow + $range;
 
         $gotopage = $prompt . ' <select class="pageselector ajax"';
 
@@ -1199,9 +1198,12 @@ class Util
 
     /**
      * Calculate page number through position
+     *
      * @param int $pos       position of first item
      * @param int $max_count number of items per page
+     *
      * @return int $page_num
+     *
      * @access public
      */
     public static function getPageFromPosition($pos, $max_count)
@@ -1478,7 +1480,7 @@ class Util
                 mb_substr(
                     $printtype,
                     0,
-                    $GLOBALS['cfg']['LimitChars']
+                    (int) $GLOBALS['cfg']['LimitChars']
                 ) . '...'
             );
             $displayed_type .= '</abbr>';
@@ -1782,7 +1784,7 @@ class Util
                 if (isset($escape_class, $escape_method)) {
                     $replace[$key] = $escape_class->$escape_method($val);
                 } else {
-                    $replace[$key] = ($escape == 'backquote')
+                    $replace[$key] = $escape == 'backquote'
                         ? self::$escape($val)
                         : $escape($val);
                 }
@@ -1831,7 +1833,6 @@ class Util
      * @param string $selected The value to mark as selected in HTML mode
      *
      * @return mixed   An HTML snippet or an array of datatypes.
-     *
      */
     public static function getSupportedDatatypes($html = false, $selected = '')
     {
@@ -1903,7 +1904,7 @@ class Util
      */
     public static function createGISData($gis_string, $mysqlVersion)
     {
-        $geomFromText = ($mysqlVersion >= 50600) ? 'ST_GeomFromText' : 'GeomFromText';
+        $geomFromText = $mysqlVersion >= 50600 ? 'ST_GeomFromText' : 'GeomFromText';
         $gis_string = trim($gis_string);
         $geom_types = '(POINT|MULTIPOINT|LINESTRING|MULTILINESTRING|'
             . 'POLYGON|MULTIPOLYGON|GEOMETRYCOLLECTION)';
@@ -2293,7 +2294,7 @@ class Util
 
         for ($i = 0, $length = mb_strlen($values_string); $i < $length; $i++) {
             $curr = mb_substr($values_string, $i, 1);
-            $next = ($i == mb_strlen($values_string) - 1)
+            $next = $i == mb_strlen($values_string) - 1
                 ? ''
                 : mb_substr($values_string, $i + 1, 1);
 
@@ -2334,11 +2335,11 @@ class Util
      * Get regular expression which occur first inside the given sql query.
      *
      * @param array  $regex_array Comparing regular expressions.
-     * @param String $query       SQL query to be checked.
+     * @param string $query       SQL query to be checked.
      *
-     * @return String Matching regular expression.
+     * @return string Matching regular expression.
      */
-    public static function getFirstOccurringRegularExpression(array $regex_array, $query)
+    public static function getFirstOccurringRegularExpression(array $regex_array, $query): string
     {
         $minimum_first_occurence_index = null;
         $regex = null;
@@ -2566,7 +2567,6 @@ class Util
      * @param string|null $sub_part part of script name
      *
      * @return array
-     *
      */
     public static function getDbInfo($db, ?string $sub_part)
     {
@@ -2742,7 +2742,6 @@ class Util
      * @param object $db_info_result result set
      *
      * @return array list of tables
-     *
      */
     public static function getTablesWhenOpen($db, $db_info_result)
     {

@@ -9,16 +9,15 @@ declare(strict_types=1);
 namespace PhpMyAdmin\Controllers\Server\Status;
 
 use PhpMyAdmin\Html\Generator;
-use PhpMyAdmin\Util;
 
 /**
- * Class VariablesController
  * @package PhpMyAdmin\Controllers\Server\Status
  */
 class VariablesController extends AbstractController
 {
     /**
      * @param array $params Request parameters
+     *
      * @return string HTML
      */
     public function index(array $params): string
@@ -119,6 +118,7 @@ class VariablesController extends AbstractController
      * Flush status variables if requested
      *
      * @param string $flush Variable name
+     *
      * @return void
      */
     private function flush(string $flush): void
@@ -179,11 +179,11 @@ class VariablesController extends AbstractController
             // depends on Key_read_requests
             // normally lower then 1:0.01
             'Key_reads' => isset($this->data->status['Key_read_requests'])
-                ? (0.01 * $this->data->status['Key_read_requests']) : 0,
+                ? 0.01 * $this->data->status['Key_read_requests'] : 0,
             // depends on Key_write_requests
             // normally nearly 1:1
             'Key_writes' => isset($this->data->status['Key_write_requests'])
-                ? (0.9 * $this->data->status['Key_write_requests']) : 0,
+                ? 0.9 * $this->data->status['Key_write_requests'] : 0,
 
             'Key_buffer_fraction' => 0.5,
 

@@ -11,9 +11,7 @@ namespace PhpMyAdmin\Tests;
 use PhpMyAdmin\DatabaseInterface;
 use PhpMyAdmin\Replication;
 use PhpMyAdmin\ReplicationGui;
-use PhpMyAdmin\SqlParser\Statements\ReplaceStatement;
 use PhpMyAdmin\Template;
-use PhpMyAdmin\Theme;
 use PHPUnit\Framework\TestCase;
 
 /*
@@ -114,6 +112,7 @@ class ReplicationGuiTest extends TestCase
      * Test for getHtmlForMasterReplication
      *
      * @return void
+     *
      * @group medium
      */
     public function testGetHtmlForMasterReplication()

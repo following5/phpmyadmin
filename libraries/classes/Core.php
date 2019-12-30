@@ -21,14 +21,6 @@ use PhpMyAdmin\Display\Error as DisplayError;
 class Core
 {
     /**
-     * the whitelist for goto parameter
-     * @static array $goto_whitelist
-     */
-    public static $goto_whitelist = [
-        'index.php',
-    ];
-
-    /**
      * checks given $var and returns it if valid, or $default of not valid
      * given $var is also checked for type being 'similar' as $default
      * or against any other type if $type is provided
@@ -49,13 +41,13 @@ class Core
      * echo Core::ifSetOr($cfg['EnableFoo'], false, 'boolean'); // true
      * </code>
      *
+     * @see self::isValid()
+     *
      * @param mixed $var     param to check
      * @param mixed $default default value
      * @param mixed $type    var type or array of values to check against $var
      *
      * @return mixed $var or $default
-     *
-     * @see self::isValid()
      */
     public static function ifSetOr(&$var, $default = null, $type = 'similar')
     {
@@ -99,6 +91,8 @@ class Core
      *
      * to avoid this we set this var to null if not isset
      *
+     * @see https://secure.php.net/gettype
+     *
      * @param mixed $var     variable to check
      * @param mixed $type    var type or array of valid values to check against $var
      * @param mixed $compare var to compare with $var
@@ -106,7 +100,6 @@ class Core
      * @return boolean whether valid or not
      *
      * @todo add some more var types like hex, bin, ...?
-     * @see https://secure.php.net/gettype
      */
     public static function isValid(&$var, $type = 'length', $compare = null): bool
     {
@@ -246,8 +239,8 @@ class Core
         } else {
             $error_message = strtr($error_message, ['<br>' => '[br]']);
             $error_header = __('Error');
-            $lang = isset($GLOBALS['lang']) ? $GLOBALS['lang'] : 'en';
-            $dir = isset($GLOBALS['text_dir']) ? $GLOBALS['text_dir'] : 'ltr';
+            $lang = $GLOBALS['lang'] ?? 'en';
+            $dir = $GLOBALS['text_dir'] ?? 'ltr';
 
             echo DisplayError::display(new Template(), $lang, $dir, $error_header, $error_message);
         }
@@ -407,7 +400,7 @@ class Core
     public static function checkPageValidity(&$page, array $whitelist = [], $include = false): bool
     {
         if (empty($whitelist)) {
-            $whitelist = self::$goto_whitelist;
+            $whitelist = ['index.php'];
         }
         if (empty($page)) {
             return false;
@@ -435,11 +428,8 @@ class Core
             0,
             mb_strpos($_page . '?', '?')
         );
-        if (in_array($_page, $whitelist)) {
-            return true;
-        }
 
-        return false;
+        return in_array($_page, $whitelist);
     }
 
     /**
@@ -616,7 +606,7 @@ class Core
      * @param array  $array   the array
      * @param mixed  $default default value
      *
-     * @return mixed    array element or $default
+     * @return array|null|mixed    array element or $default
      */
     public static function arrayRead(string $path, array $array, $default = null)
     {
@@ -934,6 +924,7 @@ class Core
 
     /**
      * Checks that required PHP extensions are there.
+     *
      * @return void
      */
     public static function checkExtensions(): void
@@ -1060,7 +1051,7 @@ class Core
      *
      * @param string $data Data to unserialize
      *
-     * @return mixed
+     * @return mixed|null
      */
     public static function safeUnserialize(string $data)
     {
@@ -1229,6 +1220,7 @@ class Core
      * Sign the sql query using hmac using the session token
      *
      * @param string $sqlQuery The sql query
+     *
      * @return string
      */
     public static function signSqlQuery($sqlQuery)
@@ -1243,6 +1235,7 @@ class Core
      *
      * @param string $sqlQuery  The sql query
      * @param string $signature The Signature to check
+     *
      * @return bool
      */
     public static function checkSqlQuerySignature($sqlQuery, $signature)

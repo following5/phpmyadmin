@@ -23,6 +23,7 @@ use PhpMyAdmin\Util;
 
 /**
  * Handles miscellaneous database operations.
+ *
  * @package PhpMyAdmin\Controllers\Database
  */
 class OperationsController extends AbstractController
@@ -284,7 +285,7 @@ class OperationsController extends AbstractController
             $tooltip_truename,
             $tooltip_aliasname,
             $pos,
-        ] = Util::getDbInfo($db, $sub_part === null ? '' : $sub_part);
+        ] = Util::getDbInfo($db, $sub_part ?? '');
 
         echo "\n";
 

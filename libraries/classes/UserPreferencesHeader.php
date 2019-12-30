@@ -29,6 +29,7 @@ class UserPreferencesHeader
      * @param Relation $relation Relation object
      *
      * @return string
+     *
      * @throws Throwable
      * @throws Twig_Error_Loader
      * @throws Twig_Error_Runtime
@@ -45,6 +46,7 @@ class UserPreferencesHeader
      * @param Template $template Template object used to render data
      *
      * @return string
+     *
      * @throws Throwable
      * @throws Twig_Error_Loader
      * @throws Twig_Error_Runtime
@@ -65,9 +67,9 @@ class UserPreferencesHeader
         /* Second authentication factor */
         $content .= Generator::getHtmlTab(
                 [
-                    'link' => 'index.php?route=/preferences/twofactor',
+                    'link' => 'index.php?route=/preferences/two-factor',
                     'text' => __('Two-factor authentication'),
-                    'active' => $route === '/preferences/twofactor',
+                    'active' => $route === '/preferences/two-factor',
                 ]
             ) . "\n";
 

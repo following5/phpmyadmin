@@ -9,9 +9,7 @@ declare(strict_types=1);
 namespace PhpMyAdmin\Navigation\Nodes;
 
 use PhpMyAdmin\Html\Generator;
-use PhpMyAdmin\Relation;
 use PhpMyAdmin\Url;
-use PhpMyAdmin\Util;
 
 /**
  * Represents a node that is a child of a database node
@@ -32,9 +30,9 @@ abstract class NodeDatabaseChild extends Node
     /**
      * Returns HTML for control buttons displayed infront of a node
      *
-     * @return String HTML for control buttons
+     * @return string HTML for control buttons
      */
-    public function getHtmlForControlButtons()
+    public function getHtmlForControlButtons(): string
     {
         $ret = '';
         $cfgRelation = $this->relation->getRelationsParam();

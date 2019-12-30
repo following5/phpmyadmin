@@ -4,7 +4,7 @@
  *
  * @package PhpMyAdmin
  *
- * @see     https://secure.php.net/session
+ * @see     https://www.php.net/manual/en/features.sessions.php
  */
 declare(strict_types=1);
 
@@ -110,6 +110,7 @@ class Session
      *
      * @param Config       $config       Configuration handler
      * @param ErrorHandler $errorHandler Error handler
+     *
      * @return void
      */
     public static function setUp(Config $config, ErrorHandler $errorHandler)

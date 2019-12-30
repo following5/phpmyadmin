@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace PhpMyAdmin\Database;
 
+use PhpMyAdmin\Database\Designer\DesignerTable;
 use PhpMyAdmin\DatabaseInterface;
 use PhpMyAdmin\Message;
 use PhpMyAdmin\Plugins;
@@ -15,7 +16,6 @@ use PhpMyAdmin\Plugins\SchemaPlugin;
 use PhpMyAdmin\Relation;
 use PhpMyAdmin\Template;
 use PhpMyAdmin\Util;
-use PhpMyAdmin\Database\Designer\DesignerTable;
 use stdClass;
 
 /**
@@ -41,8 +41,6 @@ class Designer
     public $template;
 
     /**
-     * Designer constructor.
-     *
      * @param DatabaseInterface $dbi      DatabaseInterface object
      * @param Relation          $relation Relation instance
      * @param Template          $template Template instance

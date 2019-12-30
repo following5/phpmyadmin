@@ -33,6 +33,7 @@ class GisMultiLineString extends GisGeometry
      * Returns the singleton.
      *
      * @return GisMultiLineString the singleton
+     *
      * @access public
      */
     public static function singleton()
@@ -50,6 +51,7 @@ class GisMultiLineString extends GisGeometry
      * @param string $spatial spatial data of a row
      *
      * @return array an array containing the min, max values for x and y coordinates
+     *
      * @access public
      */
     public function scaleRow($spatial)
@@ -83,6 +85,7 @@ class GisMultiLineString extends GisGeometry
      * @param resource    $image      Image object
      *
      * @return resource the modified image object
+     *
      * @access public
      */
     public function prepareRowAsPng(
@@ -156,6 +159,7 @@ class GisMultiLineString extends GisGeometry
      * @param TCPDF       $pdf        TCPDF instance
      *
      * @return TCPDF the modified TCPDF instance
+     *
      * @access public
      */
     public function prepareRowAsPdf($spatial, ?string $label, $line_color, array $scale_data, $pdf)
@@ -223,6 +227,7 @@ class GisMultiLineString extends GisGeometry
      * @param array  $scale_data Array containing data related to scaling
      *
      * @return string the code related to a row in the GIS dataset
+     *
      * @access public
      */
     public function prepareRowAsSvg($spatial, $label, $line_color, array $scale_data)
@@ -275,6 +280,7 @@ class GisMultiLineString extends GisGeometry
      * @param array  $scale_data Array containing data related to scaling
      *
      * @return string JavaScript related to a row in the GIS dataset
+     *
      * @access public
      */
     public function prepareRowAsOl($spatial, $srid, $label, $line_color, array $scale_data)
@@ -316,32 +322,31 @@ class GisMultiLineString extends GisGeometry
      * @param string $empty    Value for empty points
      *
      * @return string WKT with the set of parameters passed by the GIS editor
+     *
      * @access public
      */
     public function generateWkt(array $gis_data, $index, $empty = '')
     {
         $data_row = $gis_data[$index]['MULTILINESTRING'];
 
-        $no_of_lines = isset($data_row['no_of_lines'])
-            ? $data_row['no_of_lines'] : 1;
+        $no_of_lines = $data_row['no_of_lines'] ?? 1;
         if ($no_of_lines < 1) {
             $no_of_lines = 1;
         }
 
         $wkt = 'MULTILINESTRING(';
         for ($i = 0; $i < $no_of_lines; $i++) {
-            $no_of_points = isset($data_row[$i]['no_of_points'])
-                ? $data_row[$i]['no_of_points'] : 2;
+            $no_of_points = $data_row[$i]['no_of_points'] ?? 2;
             if ($no_of_points < 2) {
                 $no_of_points = 2;
             }
             $wkt .= '(';
             for ($j = 0; $j < $no_of_points; $j++) {
-                $wkt .= ((isset($data_row[$i][$j]['x'])
-                        && trim((string) $data_row[$i][$j]['x']) != '')
+                $wkt .= (isset($data_row[$i][$j]['x'])
+                        && trim((string) $data_row[$i][$j]['x']) != ''
                         ? $data_row[$i][$j]['x'] : $empty)
-                    . ' ' . ((isset($data_row[$i][$j]['y'])
-                        && trim((string) $data_row[$i][$j]['y']) != '')
+                    . ' ' . (isset($data_row[$i][$j]['y'])
+                        && trim((string) $data_row[$i][$j]['y']) != ''
                         ? $data_row[$i][$j]['y'] : $empty) . ',';
             }
             $wkt
@@ -369,6 +374,7 @@ class GisMultiLineString extends GisGeometry
      * @param array $row_data GIS data
      *
      * @return string the WKT for the data from ESRI shape files
+     *
      * @access public
      */
     public function getShape(array $row_data)
@@ -405,6 +411,7 @@ class GisMultiLineString extends GisGeometry
      * @param int    $index Index of the geometry
      *
      * @return array params for the GIS data editor from the value of the GIS column
+     *
      * @access public
      */
     public function generateParams($value, $index = -1)

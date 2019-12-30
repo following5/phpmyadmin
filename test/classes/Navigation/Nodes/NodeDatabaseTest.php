@@ -10,7 +10,6 @@ namespace PhpMyAdmin\Tests\Navigation\Nodes;
 
 use PhpMyAdmin\Navigation\NodeFactory;
 use PhpMyAdmin\Tests\PmaTestCase;
-use PhpMyAdmin\Theme;
 
 /**
  * Tests for PhpMyAdmin\Navigation\Nodes\NodeDatabase class
@@ -122,6 +121,7 @@ class NodeDatabaseTest extends PmaTestCase
      */
     public function testHiddenCount()
     {
+        /** @var \PhpMyAdmin\Navigation\Nodes\NodeDatabase $parent */
         $parent = NodeFactory::getInstance('NodeDatabase');
 
         $parent->setHiddenCount(3);

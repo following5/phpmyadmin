@@ -343,61 +343,6 @@ parameters:
 			path: libraries/classes/Controllers/Database/OperationsController.php
 
 		-
-			message: "#^Strict comparison using \\=\\=\\= between '_structure' and null will always evaluate to false\\.$#"
-			count: 1
-			path: libraries/classes/Controllers/Database/OperationsController.php
-
-		-
-			message: "#^Parameter \\#1 \\$analyzed_sql_results of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects array, null given\\.$#"
-			count: 1
-			path: libraries/classes/Controllers/Database/QueryByExampleController.php
-
-		-
-			message: "#^Parameter \\#13 \\$disp_query of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/classes/Controllers/Database/QueryByExampleController.php
-
-		-
-			message: "#^Parameter \\#14 \\$disp_message of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects PhpMyAdmin\\\\Message\\|string, null given\\.$#"
-			count: 1
-			path: libraries/classes/Controllers/Database/QueryByExampleController.php
-
-		-
-			message: "#^Parameter \\#15 \\$query_type of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/classes/Controllers/Database/QueryByExampleController.php
-
-		-
-			message: "#^Parameter \\#18 \\$complete_query of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/classes/Controllers/Database/QueryByExampleController.php
-
-		-
-			message: "#^Parameter \\#4 \\$table of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/classes/Controllers/Database/QueryByExampleController.php
-
-		-
-			message: "#^Parameter \\#6 \\$sql_query_for_bookmark of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/classes/Controllers/Database/QueryByExampleController.php
-
-		-
-			message: "#^Parameter \\#8 \\$message_to_show of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/classes/Controllers/Database/QueryByExampleController.php
-
-		-
-			message: "#^Parameter \\#9 \\$message of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/classes/Controllers/Database/QueryByExampleController.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between '_qbe' and null will always evaluate to false\\.$#"
-			count: 1
-			path: libraries/classes/Controllers/Database/QueryByExampleController.php
-
-		-
 			message: "#^Parameter \\#1 \\$content of method PhpMyAdmin\\\\Response\\:\\:addHTML\\(\\) expects string, PhpMyAdmin\\\\Message given\\.$#"
 			count: 1
 			path: libraries/classes/Controllers/Database/QueryByExampleController.php
@@ -418,6 +363,16 @@ parameters:
 			path: libraries/classes/Controllers/Database/StructureController.php
 
 		-
+			message: "#^Parameter \\#2 \\$dump_buffer of method PhpMyAdmin\\\\Export\\:\\:closeFile\\(\\) expects string, array\\|bool\\|string given\\.$#"
+			count: 1
+			path: libraries/classes/Controllers/ExportController.php
+
+		-
+			message: "#^Parameter \\#1 \\(array\\|bool\\|string\\) of echo cannot be converted to string\\.$#"
+			count: 1
+			path: libraries/classes/Controllers/ExportController.php
+
+		-
 			message: "#^Cannot call method generateParams\\(\\) on PhpMyAdmin\\\\Gis\\\\GisGeometryCollection\\|PhpMyAdmin\\\\Gis\\\\GisLineString\\|PhpMyAdmin\\\\Gis\\\\GisMultiLineString\\|PhpMyAdmin\\\\Gis\\\\GisMultiPoint\\|PhpMyAdmin\\\\Gis\\\\GisMultiPolygon\\|PhpMyAdmin\\\\Gis\\\\GisPoint\\|PhpMyAdmin\\\\Gis\\\\GisPolygon\\|false\\.$#"
 			count: 1
 			path: libraries/classes/Controllers/GisDataEditorController.php
@@ -426,6 +381,36 @@ parameters:
 			message: "#^Cannot call method generateWkt\\(\\) on PhpMyAdmin\\\\Gis\\\\GisGeometryCollection\\|PhpMyAdmin\\\\Gis\\\\GisLineString\\|PhpMyAdmin\\\\Gis\\\\GisMultiLineString\\|PhpMyAdmin\\\\Gis\\\\GisMultiPoint\\|PhpMyAdmin\\\\Gis\\\\GisMultiPolygon\\|PhpMyAdmin\\\\Gis\\\\GisPoint\\|PhpMyAdmin\\\\Gis\\\\GisPolygon\\|false\\.$#"
 			count: 2
 			path: libraries/classes/Controllers/GisDataEditorController.php
+
+		-
+			message: "#^Parameter \\#1 \\$error_message of method PhpMyAdmin\\\\Import\\:\\:stop\\(\\) expects PhpMyAdmin\\\\Message, PhpMyAdmin\\\\Message\\|null given\\.$#"
+			count: 2
+			path: libraries/classes/Controllers/ImportController.php
+
+		-
+			message: "#^Negated boolean expression is always true\\.$#"
+			count: 1
+			path: libraries/classes/Controllers/ImportController.php
+
+		-
+			message: "#^Elseif condition is always false\\.$#"
+			count: 2
+			path: libraries/classes/Controllers/ImportController.php
+
+		-
+			message: "#^Left side of && is always false\\.$#"
+			count: 1
+			path: libraries/classes/Controllers/ImportController.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: libraries/classes/Controllers/ImportController.php
+
+		-
+			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
+			count: 1
+			path: libraries/classes/Controllers/ImportController.php
 
 		-
 			message: "#^Argument of an invalid type array\\|null supplied for foreach, only iterables are supported\\.$#"
@@ -508,29 +493,14 @@ parameters:
 			path: libraries/classes/Controllers/Table/ChartController.php
 
 		-
+			message: "#^Parameter \\#1 \\$str of function mb_strtolower expects string, array\\<string\\>\\|string given\\.$#"
+			count: 1
+			path: libraries/classes/Controllers/Table/FindReplaceController.php
+
+		-
 			message: "#^Parameter \\#1 \\$content of method PhpMyAdmin\\\\Response\\:\\:addHTML\\(\\) expects string, PhpMyAdmin\\\\Message given\\.$#"
 			count: 1
 			path: libraries/classes/Controllers/Table/GisVisualizationController.php
-
-		-
-			message: "#^Property PhpMyAdmin\\\\Controllers\\\\Table\\\\RelationController\\:\\:\\$options_array \\(array\\) does not accept array\\|null\\.$#"
-			count: 1
-			path: libraries/classes/Controllers/Table/RelationController.php
-
-		-
-			message: "#^Property PhpMyAdmin\\\\Controllers\\\\Table\\\\RelationController\\:\\:\\$cfgRelation \\(array\\) does not accept array\\|null\\.$#"
-			count: 1
-			path: libraries/classes/Controllers/Table/RelationController.php
-
-		-
-			message: "#^Property PhpMyAdmin\\\\Controllers\\\\Table\\\\RelationController\\:\\:\\$existrel \\(array\\) does not accept array\\|null\\.$#"
-			count: 1
-			path: libraries/classes/Controllers/Table/RelationController.php
-
-		-
-			message: "#^Property PhpMyAdmin\\\\Controllers\\\\Table\\\\RelationController\\:\\:\\$existrel_foreign \\(array\\) does not accept array\\|null\\.$#"
-			count: 1
-			path: libraries/classes/Controllers/Table/RelationController.php
 
 		-
 			message: "#^Parameter \\#1 \\$str of function mb_strtolower expects string, array\\<string\\>\\|string given\\.$#"
@@ -539,66 +509,11 @@ parameters:
 
 		-
 			message: "#^Argument of an invalid type \\(array\\)\\|true supplied for foreach, only iterables are supported\\.$#"
-			count: 2
-			path: libraries/classes/Controllers/Table/SearchController.php
-
-		-
-			message: "#^Cannot assign offset 'where_clause' to \\(array\\)\\|true\\.$#"
-			count: 1
-			path: libraries/classes/Controllers/Table/SearchController.php
-
-		-
-			message: "#^Parameter \\#2 \\$column_index of method PhpMyAdmin\\\\Controllers\\\\Table\\\\SearchController\\:\\:getColumnProperties\\(\\) expects int, int\\|string\\|false given\\.$#"
-			count: 1
-			path: libraries/classes/Controllers/Table/SearchController.php
-
-		-
-			message: "#^Parameter \\#1 \\$analyzed_sql_results of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects array, null given\\.$#"
-			count: 1
-			path: libraries/classes/Controllers/Table/SearchController.php
-
-		-
-			message: "#^Parameter \\#13 \\$disp_query of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/classes/Controllers/Table/SearchController.php
-
-		-
-			message: "#^Parameter \\#14 \\$disp_message of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects PhpMyAdmin\\\\Message\\|string, null given\\.$#"
-			count: 1
-			path: libraries/classes/Controllers/Table/SearchController.php
-
-		-
-			message: "#^Parameter \\#15 \\$query_type of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/classes/Controllers/Table/SearchController.php
-
-		-
-			message: "#^Parameter \\#18 \\$complete_query of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/classes/Controllers/Table/SearchController.php
-
-		-
-			message: "#^Parameter \\#6 \\$sql_query_for_bookmark of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/classes/Controllers/Table/SearchController.php
-
-		-
-			message: "#^Parameter \\#8 \\$message_to_show of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/classes/Controllers/Table/SearchController.php
-
-		-
-			message: "#^Parameter \\#9 \\$message of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
 			count: 1
 			path: libraries/classes/Controllers/Table/SearchController.php
 
 		-
 			message: "#^Method PhpMyAdmin\\\\Controllers\\\\Table\\\\SearchController\\:\\:getColumnMinMax\\(\\) should return array but returns array\\|bool\\.$#"
-			count: 1
-			path: libraries/classes/Controllers/Table/SearchController.php
-
-		-
-			message: "#^Result of && is always false\\.$#"
 			count: 1
 			path: libraries/classes/Controllers/Table/SearchController.php
 
@@ -626,6 +541,26 @@ parameters:
 			message: "#^Cannot cast ''\\|int to int\\.$#"
 			count: 1
 			path: libraries/classes/Controllers/Table/StructureController.php
+
+		-
+			message: "#^Parameter \\#1 \\$str of function mb_strtolower expects string, array\\<string\\>\\|string given\\.$#"
+			count: 1
+			path: libraries/classes/Controllers/Table/ZoomSearchController.php
+
+		-
+			message: "#^Argument of an invalid type \\(array\\)\\|true supplied for foreach, only iterables are supported\\.$#"
+			count: 2
+			path: libraries/classes/Controllers/Table/ZoomSearchController.php
+
+		-
+			message: "#^Parameter \\#2 \\$column_index of method PhpMyAdmin\\\\Controllers\\\\Table\\\\ZoomSearchController\\:\\:getColumnProperties\\(\\) expects int, int\\|string\\|false given\\.$#"
+			count: 1
+			path: libraries/classes/Controllers/Table/ZoomSearchController.php
+
+		-
+			message: "#^Cannot assign offset 'where_clause' to \\(array\\)\\|true\\.$#"
+			count: 1
+			path: libraries/classes/Controllers/Table/ZoomSearchController.php
 
 		-
 			message: "#^Parameter \\#1 \\$im of function imagesx expects resource, resource\\|false given\\.$#"
@@ -776,51 +711,6 @@ parameters:
 			message: "#^Method PhpMyAdmin\\\\Database\\\\Designer\\\\DesignerTable\\:\\:getDisplayField\\(\\) should return string but returns string\\|null\\.$#"
 			count: 1
 			path: libraries/classes/Database/Designer/DesignerTable.php
-
-		-
-			message: "#^Parameter \\#1 \\$analyzed_sql_results of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects array, null given\\.$#"
-			count: 1
-			path: libraries/classes/Database/MultiTableQuery.php
-
-		-
-			message: "#^Parameter \\#13 \\$disp_query of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/classes/Database/MultiTableQuery.php
-
-		-
-			message: "#^Parameter \\#14 \\$disp_message of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects PhpMyAdmin\\\\Message\\|string, null given\\.$#"
-			count: 1
-			path: libraries/classes/Database/MultiTableQuery.php
-
-		-
-			message: "#^Parameter \\#15 \\$query_type of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/classes/Database/MultiTableQuery.php
-
-		-
-			message: "#^Parameter \\#18 \\$complete_query of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/classes/Database/MultiTableQuery.php
-
-		-
-			message: "#^Parameter \\#4 \\$table of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/classes/Database/MultiTableQuery.php
-
-		-
-			message: "#^Parameter \\#6 \\$sql_query_for_bookmark of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/classes/Database/MultiTableQuery.php
-
-		-
-			message: "#^Parameter \\#8 \\$message_to_show of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/classes/Database/MultiTableQuery.php
-
-		-
-			message: "#^Parameter \\#9 \\$message of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/classes/Database/MultiTableQuery.php
 
 		-
 			message: "#^Property PhpMyAdmin\\\\Database\\\\Qbe\\:\\:\\$_currentSearch \\(PhpMyAdmin\\\\SavedSearches\\) does not accept PhpMyAdmin\\\\SavedSearches\\|null\\.$#"
@@ -2579,7 +2469,7 @@ parameters:
 
 		-
 			message: "#^Strict comparison using \\=\\=\\= between string and null will always evaluate to false\\.$#"
-			count: 2
+			count: 1
 			path: libraries/classes/Server/Privileges.php
 
 		-
@@ -3308,139 +3198,9 @@ parameters:
 			path: libraries/common.inc.php
 
 		-
-			message: "#^Strict comparison using \\=\\=\\= between '_export' and null will always evaluate to false\\.$#"
-			count: 1
-			path: libraries/entry_points/database/export.php
-
-		-
 			message: "#^Strict comparison using \\=\\=\\= between string and null will always evaluate to false\\.$#"
 			count: 1
 			path: libraries/entry_points/database/export.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between '_structure' and null will always evaluate to false\\.$#"
-			count: 1
-			path: libraries/entry_points/database/tracking.php
-
-		-
-			message: "#^Parameter \\#2 \\$dump_buffer of method PhpMyAdmin\\\\Export\\:\\:closeFile\\(\\) expects string, array\\|bool\\|string given\\.$#"
-			count: 1
-			path: libraries/entry_points/export.php
-
-		-
-			message: "#^Parameter \\#1 \\(array\\|bool\\|string\\) of echo cannot be converted to string\\.$#"
-			count: 1
-			path: libraries/entry_points/export.php
-
-		-
-			message: "#^Cannot call method applyVariables\\(\\) on PhpMyAdmin\\\\Bookmark\\|null\\.$#"
-			count: 1
-			path: libraries/entry_points/import.php
-
-		-
-			message: "#^Cannot call method getQuery\\(\\) on PhpMyAdmin\\\\Bookmark\\|null\\.$#"
-			count: 2
-			path: libraries/entry_points/import.php
-
-		-
-			message: "#^Parameter \\#1 \\$str of function trim expects string, string\\|false given\\.$#"
-			count: 1
-			path: libraries/entry_points/import.php
-
-		-
-			message: "#^Parameter \\#1 \\$error_message of method PhpMyAdmin\\\\Import\\:\\:stop\\(\\) expects PhpMyAdmin\\\\Message, PhpMyAdmin\\\\Message\\|null given\\.$#"
-			count: 2
-			path: libraries/entry_points/import.php
-
-		-
-			message: "#^Negated boolean expression is always true\\.$#"
-			count: 1
-			path: libraries/entry_points/import.php
-
-		-
-			message: "#^Elseif condition is always false\\.$#"
-			count: 2
-			path: libraries/entry_points/import.php
-
-		-
-			message: "#^Left side of && is always false\\.$#"
-			count: 1
-			path: libraries/entry_points/import.php
-
-		-
-			message: "#^If condition is always false\\.$#"
-			count: 1
-			path: libraries/entry_points/import.php
-
-		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-			count: 1
-			path: libraries/entry_points/import.php
-
-		-
-			message: "#^Parameter \\#1 \\$content of method PhpMyAdmin\\\\Response\\:\\:addHTML\\(\\) expects string, PhpMyAdmin\\\\Message given\\.$#"
-			count: 1
-			path: libraries/entry_points/navigation.php
-
-		-
-			message: "#^Parameter \\#3 \\$subject of function str_replace expects array\\|string, int\\|string given\\.$#"
-			count: 1
-			path: libraries/entry_points/preferences/manage.php
-
-		-
-			message: "#^Parameter \\#3 \\$length of function mb_substr expects int\\|null, int\\|false given\\.$#"
-			count: 1
-			path: libraries/entry_points/preferences/manage.php
-
-		-
-			message: "#^Parameter \\#1 \\$file_name of method PhpMyAdmin\\\\UserPreferences\\:\\:redirect\\(\\) expects string, string\\|null given\\.$#"
-			count: 1
-			path: libraries/entry_points/preferences/manage.php
-
-		-
-			message: "#^Parameter \\#5 \\$is_menuwork of method PhpMyAdmin\\\\Server\\\\Privileges\\:\\:addUser\\(\\) expects bool, string given\\.$#"
-			count: 1
-			path: libraries/entry_points/server/privileges.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between '_structure' and null will always evaluate to false\\.$#"
-			count: 1
-			path: libraries/entry_points/server/privileges.php
-
-		-
-			message: "#^Parameter \\#2 \\$is_menuswork of method PhpMyAdmin\\\\Server\\\\Privileges\\:\\:getHtmlForUserGroupDialog\\(\\) expects bool, string given\\.$#"
-			count: 1
-			path: libraries/entry_points/server/privileges.php
-
-		-
-			message: "#^Parameter \\#1 \\$content of method PhpMyAdmin\\\\Response\\:\\:addHTML\\(\\) expects string, string\\|null given\\.$#"
-			count: 1
-			path: libraries/entry_points/table/addfield.php
-
-		-
-			message: "#^Parameter \\#1 \\$message of static method PhpMyAdmin\\\\Html\\\\Generator\\:\\:getMessage\\(\\) expects PhpMyAdmin\\\\Message\\|string, null given\\.$#"
-			count: 2
-			path: libraries/entry_points/table/operations.php
-
-		-
-			message: "#^Parameter \\#1 \\$haystack of function mb_strstr expects string, string\\|null given\\.$#"
-			count: 2
-			path: libraries/entry_points/table/operations.php
-
-		-
-			message: "#^Parameter \\#3 \\$subject of function preg_replace expects array\\|string, string\\|null given\\.$#"
-			count: 1
-			path: libraries/entry_points/table/operations.php
-
-		-
-			message: "#^Parameter \\#2 \\$comment of method PhpMyAdmin\\\\Operations\\:\\:getTableOptionDiv\\(\\) expects string, string\\|null given\\.$#"
-			count: 1
-			path: libraries/entry_points/table/operations.php
-
-		-
-			message: "#^Parameter \\#6 \\$auto_increment of method PhpMyAdmin\\\\Operations\\:\\:getTableOptionDiv\\(\\) expects string, int given\\.$#"
-			count: 1
-			path: libraries/entry_points/table/operations.php
 
 		-
 			message: "#^Parameter \\#1 \\$goto_include of method PhpMyAdmin\\\\InsertEdit\\:\\:getGotoInclude\\(\\) expects string, false given\\.$#"
@@ -3463,107 +3223,12 @@ parameters:
 			path: libraries/entry_points/table/replace.php
 
 		-
-			message: "#^Parameter \\#1 \\$analyzed_sql_results of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects array, null given\\.$#"
-			count: 1
-			path: libraries/entry_points/table/row_action.php
-
-		-
-			message: "#^Parameter \\#13 \\$disp_query of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/entry_points/table/row_action.php
-
-		-
-			message: "#^Parameter \\#14 \\$disp_message of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects PhpMyAdmin\\\\Message\\|string, null given\\.$#"
-			count: 1
-			path: libraries/entry_points/table/row_action.php
-
-		-
-			message: "#^Parameter \\#15 \\$query_type of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/entry_points/table/row_action.php
-
-		-
-			message: "#^Parameter \\#18 \\$complete_query of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/entry_points/table/row_action.php
-
-		-
-			message: "#^Parameter \\#6 \\$sql_query_for_bookmark of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/entry_points/table/row_action.php
-
-		-
-			message: "#^Parameter \\#8 \\$message_to_show of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/entry_points/table/row_action.php
-
-		-
-			message: "#^Parameter \\#9 \\$message of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/entry_points/table/row_action.php
-
-		-
-			message: "#^Parameter \\#2 \\$filter_ts_from of method PhpMyAdmin\\\\Tracking\\:\\:getEntries\\(\\) expects int, int\\|string\\|false given\\.$#"
-			count: 1
-			path: libraries/entry_points/table/tracking.php
-
-		-
-			message: "#^Parameter \\#3 \\$filter_ts_to of method PhpMyAdmin\\\\Tracking\\:\\:getEntries\\(\\) expects int, int\\|string\\|false given\\.$#"
-			count: 1
-			path: libraries/entry_points/table/tracking.php
-
-		-
-			message: "#^Parameter \\#6 \\$filter_ts_to of method PhpMyAdmin\\\\Tracking\\:\\:getHtmlForTrackingReport\\(\\) expects int, int\\|string\\|false given\\.$#"
-			count: 1
-			path: libraries/entry_points/table/tracking.php
-
-		-
-			message: "#^Parameter \\#7 \\$filter_ts_from of method PhpMyAdmin\\\\Tracking\\:\\:getHtmlForTrackingReport\\(\\) expects int, int\\|string\\|false given\\.$#"
-			count: 1
-			path: libraries/entry_points/table/tracking.php
-
-		-
 			message: "#^Parameter \\#9 \\$originalUrlQuery of method PhpMyAdmin\\\\MultSubmits\\:\\:getUrlParams\\(\\) expects string, null given\\.$#"
 			count: 2
 			path: libraries/mult_submits.inc.php
 
 		-
 			message: "#^Parameter \\#6 \\$primary of method PhpMyAdmin\\\\MultSubmits\\:\\:buildOrExecuteQuery\\(\\) expects string, string\\|null given\\.$#"
-			count: 1
-			path: libraries/mult_submits.inc.php
-
-		-
-			message: "#^Parameter \\#1 \\$analyzed_sql_results of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects array, null given\\.$#"
-			count: 1
-			path: libraries/mult_submits.inc.php
-
-		-
-			message: "#^Parameter \\#13 \\$disp_query of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/mult_submits.inc.php
-
-		-
-			message: "#^Parameter \\#14 \\$disp_message of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects PhpMyAdmin\\\\Message\\|string, null given\\.$#"
-			count: 1
-			path: libraries/mult_submits.inc.php
-
-		-
-			message: "#^Parameter \\#18 \\$complete_query of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/mult_submits.inc.php
-
-		-
-			message: "#^Parameter \\#6 \\$sql_query_for_bookmark of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/mult_submits.inc.php
-
-		-
-			message: "#^Parameter \\#8 \\$message_to_show of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: libraries/mult_submits.inc.php
-
-		-
-			message: "#^Parameter \\#9 \\$message of method PhpMyAdmin\\\\Sql\\:\\:executeQueryAndSendQueryResponse\\(\\) expects string, null given\\.$#"
 			count: 1
 			path: libraries/mult_submits.inc.php
 
@@ -3653,38 +3318,13 @@ parameters:
 			path: test/classes/Controllers/Table/IndexesControllerTest.php
 
 		-
-			message: "#^Parameter \\#6 \\$index of class PhpMyAdmin\\\\Controllers\\\\Table\\\\IndexesController constructor expects PhpMyAdmin\\\\Index, null given\\.$#"
-			count: 1
-			path: test/classes/Controllers/Table/IndexesControllerTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$message of static method PhpMyAdmin\\\\Html\\\\Generator\\:\\:showHint\\(\\) expects string, PhpMyAdmin\\\\Message given\\.$#"
-			count: 1
-			path: test/classes/Controllers/Table/IndexesControllerTest.php
-
-		-
 			message: "#^Parameter \\#1 \\$response of class PhpMyAdmin\\\\Controllers\\\\Table\\\\RelationController constructor expects PhpMyAdmin\\\\Response, PhpMyAdmin\\\\Tests\\\\Stubs\\\\Response given\\.$#"
 			count: 4
 			path: test/classes/Controllers/Table/RelationControllerTest.php
 
 		-
-			message: "#^Parameter \\#11 \\$upd_query of class PhpMyAdmin\\\\Controllers\\\\Table\\\\RelationController constructor expects PhpMyAdmin\\\\Table, null given\\.$#"
-			count: 4
-			path: test/classes/Controllers/Table/RelationControllerTest.php
-
-		-
-			message: "#^Parameter \\#8 \\$tbl_storage_engine of class PhpMyAdmin\\\\Controllers\\\\Table\\\\RelationController constructor expects string, null given\\.$#"
-			count: 2
-			path: test/classes/Controllers/Table/RelationControllerTest.php
-
-		-
 			message: "#^Parameter \\#1 \\$response of class PhpMyAdmin\\\\Controllers\\\\Table\\\\SearchController constructor expects PhpMyAdmin\\\\Response, PhpMyAdmin\\\\Tests\\\\Stubs\\\\Response given\\.$#"
-			count: 5
-			path: test/classes/Controllers/Table/SearchControllerTest.php
-
-		-
-			message: "#^Parameter \\#7 \\$url_query of class PhpMyAdmin\\\\Controllers\\\\Table\\\\SearchController constructor expects string, null given\\.$#"
-			count: 5
+			count: 2
 			path: test/classes/Controllers/Table/SearchControllerTest.php
 
 		-
@@ -4014,7 +3654,7 @@ parameters:
 
 		-
 			message: "#^Parameter \\#8 \\$default_value of static method PhpMyAdmin\\\\Table\\:\\:generateFieldSpec\\(\\) expects string, int given\\.$#"
-			count: 8
+			count: 14
 			path: test/classes/TableTest.php
 
 		-

@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace PhpMyAdmin\Tests\Server;
 
 use PhpMyAdmin\Server\UserGroups;
-use PhpMyAdmin\Theme;
 use PhpMyAdmin\Url;
 use PHPUnit\Framework\TestCase;
 
@@ -43,6 +42,7 @@ class UserGroupsTest extends TestCase
      * Tests UserGroups::getHtmlForUserGroupsTable() function when there are no user groups
      *
      * @return void
+     *
      * @group medium
      */
     public function testGetHtmlForUserGroupsTableWithNoUserGroups()
@@ -70,7 +70,7 @@ class UserGroupsTest extends TestCase
             '<table id="userGroupsTable">',
             $html
         );
-        $url_tag = '<a href="' . Url::getFromRoute('/server/user_groups', ['addUserGroup' => 1]);
+        $url_tag = '<a href="' . Url::getFromRoute('/server/user-groups', ['addUserGroup' => 1]);
         $this->assertStringContainsString(
             $url_tag,
             $html
@@ -123,7 +123,7 @@ class UserGroupsTest extends TestCase
             '<td>usergroup</td>',
             $html
         );
-        $url_tag = '<a class="" href="' . Url::getFromRoute('/server/user_groups') . '" data-post="'
+        $url_tag = '<a class="" href="' . Url::getFromRoute('/server/user-groups') . '" data-post="'
             . Url::getCommon(
                 [
                     'viewUsers' => 1,
@@ -135,7 +135,7 @@ class UserGroupsTest extends TestCase
             $url_tag,
             $html
         );
-        $url_tag = '<a class="" href="' . Url::getFromRoute('/server/user_groups') . '" data-post="'
+        $url_tag = '<a class="" href="' . Url::getFromRoute('/server/user-groups') . '" data-post="'
             . Url::getCommon(
                 [
                     'editUserGroup' => 1,
@@ -147,7 +147,7 @@ class UserGroupsTest extends TestCase
             $url_tag,
             $html
         );
-        $url_tag = '<a class="deleteUserGroup ajax" href="' . Url::getFromRoute('/server/user_groups') . '" data-post="'
+        $url_tag = '<a class="deleteUserGroup ajax" href="' . Url::getFromRoute('/server/user-groups') . '" data-post="'
             . Url::getCommon(
                 [
                     'deleteUserGroup' => 1,

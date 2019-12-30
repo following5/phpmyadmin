@@ -87,6 +87,7 @@ class CentralColumns
      * Defines the central_columns parameters for the current user
      *
      * @return array|bool the central_columns parameters for the current user
+     *
      * @access public
      */
     public function getParams()
@@ -276,10 +277,10 @@ class CentralColumns
         if (isset($def['Attribute'])) {
             $attribute = $def['Attribute'];
         }
-        $collation = isset($def['Collation']) ? $def['Collation'] : '';
+        $collation = $def['Collation'] ?? '';
         $isNull = $def['Null'] == 'NO' ? '0' : '1';
-        $extra = isset($def['Extra']) ? $def['Extra'] : '';
-        $default = isset($def['Default']) ? $def['Default'] : '';
+        $extra = $def['Extra'] ?? '';
+        $default = $def['Default'] ?? '';
         return 'INSERT INTO '
             . Util::backquote($central_list_table) . ' '
             . 'VALUES ( \'' . $this->dbi->escapeString($db) . '\' ,'
@@ -686,6 +687,7 @@ class CentralColumns
      * Update Multiple column in central columns list if a change is requested
      *
      * @param array $params Request parameters
+     *
      * @return true|Message
      */
     public function updateMultipleColumn(array $params)

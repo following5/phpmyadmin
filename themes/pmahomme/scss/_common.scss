@@ -1790,6 +1790,7 @@ kbd {
 }
 
 code {
+  font-size: 1em;
   color: $main-color;
 
   &.php {
@@ -3030,6 +3031,10 @@ input#auto_increment_opt {
 
 body .ui-widget {
   font-size: 1em;
+}
+
+body #ui-datepicker-div {
+  z-index: 9999 !important;
 }
 
 .ui-dialog fieldset legend a {

@@ -1,6 +1,7 @@
 <?php
 /**
  * Handle error report submission
+ *
  * @package PhpMyAdmin\Controllers
  */
 declare(strict_types=1);
@@ -17,6 +18,7 @@ use PhpMyAdmin\UserPreferences;
 
 /**
  * Handle error report submission
+ *
  * @package PhpMyAdmin\Controllers
  */
 class ErrorReportController extends AbstractController
@@ -81,7 +83,7 @@ class ErrorReportController extends AbstractController
                     $_SESSION['prev_error_subm_time'] = time();
                     $_SESSION['error_subm_count'] = (
                     isset($_SESSION['error_subm_count'])
-                        ? ($_SESSION['error_subm_count'] + 1)
+                        ? $_SESSION['error_subm_count'] + 1
                         : 0
                     );
                 }

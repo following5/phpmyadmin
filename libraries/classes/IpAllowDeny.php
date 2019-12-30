@@ -45,7 +45,7 @@ class IpAllowDeny
     /**
      * Based on IP Pattern Matcher
      * Originally by J.Adams <jna@retina.net>
-     * Found on <https://secure.php.net/manual/en/function.ip2long.php>
+     * Found on <https://www.php.net/manual/en/function.ip2long.php>
      * Modified for phpMyAdmin
      *
      * Matches:
@@ -199,7 +199,7 @@ class IpAllowDeny
                 $origval = hexdec($orig);
 
                 // OR it with (2^flexbits)-1, with flexbits limited to 4 at a time
-                $newval = $origval | (pow(2, min(4, $flexbits)) - 1);
+                $newval = $origval | pow(2, min(4, $flexbits)) - 1;
 
                 // Convert it back to a hexadecimal character
                 $new = dechex($newval);
@@ -222,11 +222,11 @@ class IpAllowDeny
     /**
      * Runs through IP Allow rules the use of it below for more information
      *
+     * @see     Core::getIp()
+     *
      * @return bool Whether rule has matched
      *
      * @access  public
-     *
-     * @see     Core::getIp()
      */
     public function allow()
     {
@@ -236,11 +236,11 @@ class IpAllowDeny
     /**
      * Runs through IP Deny rules the use of it below for more information
      *
+     * @see     Core::getIp()
+     *
      * @return bool Whether rule has matched
      *
      * @access  public
-     *
-     * @see     Core::getIp()
      */
     public function deny()
     {
@@ -250,13 +250,13 @@ class IpAllowDeny
     /**
      * Runs through IP Allow/Deny rules the use of it below for more information
      *
+     * @see     Core::getIp()
+     *
      * @param string $type 'allow' | 'deny' type of rule to match
      *
      * @return bool   Whether rule has matched
      *
      * @access  public
-     *
-     * @see     Core::getIp()
      */
     private function allowDeny($type)
     {

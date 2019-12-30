@@ -13,6 +13,7 @@ use PhpMyAdmin\Template;
 
 /**
  * Import progress bar backend
+ *
  * @package PhpMyAdmin\Controllers
  */
 class ImportStatusController
@@ -62,7 +63,7 @@ class ImportStatusController
                 // reopen session
                 session_start();
 
-                if ((time() - $timestamp) > $maximumTime) {
+                if (time() - $timestamp > $maximumTime) {
                     $_SESSION['Import_message']['message'] = Message::error(
                         __('Could not load the progress of the import.')
                     )->getDisplay();

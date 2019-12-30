@@ -9,13 +9,12 @@ declare(strict_types=1);
 namespace PhpMyAdmin;
 
 use PhpMyAdmin\Utils\HttpRequest;
-use \stdClass;
+use stdClass;
 
 /**
  * Responsible for retrieving version information and notifiying about latest version
  *
  * @package PhpMyAdmin
- *
  */
 class VersionInformation
 {

@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace PhpMyAdmin\Plugins\Export;
 
 use PhpMyAdmin\DatabaseInterface;
-use PhpMyAdmin\Export;
 use PhpMyAdmin\Plugins\ExportPlugin;
 use PhpMyAdmin\Properties\Options\Groups\OptionsPropertyMainGroup;
 use PhpMyAdmin\Properties\Options\Groups\OptionsPropertyRootGroup;
@@ -198,7 +197,7 @@ class ExportPhparray extends ExportPlugin
         }
 
         // fix variable names (based on
-        // https://secure.php.net/manual/language.variables.basics.php)
+        // https://www.php.net/manual/en/language.variables.basics.php)
         if (! preg_match(
             '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/',
             $table_alias
@@ -240,7 +239,7 @@ class ExportPhparray extends ExportPlugin
             for ($i = 0; $i < $columns_cnt; $i++) {
                 $buffer .= var_export($columns[$i], true)
                     . ' => ' . var_export($record[$i], true)
-                    . (($i + 1 >= $columns_cnt) ? '' : ',');
+                    . ($i + 1 >= $columns_cnt ? '' : ',');
             }
 
             $buffer .= ')';

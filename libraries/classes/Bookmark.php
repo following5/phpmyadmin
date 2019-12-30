@@ -59,8 +59,6 @@ class Bookmark
     private $user;
 
     /**
-     * Bookmark constructor.
-     *
      * @param DatabaseInterface $dbi  DatabaseInterface object
      * @param string            $user Current user
      */
@@ -213,6 +211,7 @@ class Bookmark
      * @param string $user Current user
      *
      * @return array|bool the bookmark parameters for the current user
+     *
      * @access  public
      */
     public static function getParams(string $user)
@@ -349,16 +348,15 @@ class Bookmark
      * @param DatabaseInterface $dbi                 DatabaseInterface object
      * @param string            $user                Current user
      * @param string            $db                  the current database name
-     * @param mixed             $id                  an identifier of the bookmark to get
+     * @param int|string        $id                  an identifier of the bookmark to get
      * @param string            $id_field            which field to look up the identifier
      * @param boolean           $action_bookmark_all true: get all bookmarks regardless
      *                                               of the owning user
      * @param boolean           $exact_user_match    whether to ignore bookmarks with no user
      *
-     * @return Bookmark the bookmark
+     * @return Bookmark|null the bookmark
      *
      * @access  public
-     *
      */
     public static function get(
         DatabaseInterface $dbi,

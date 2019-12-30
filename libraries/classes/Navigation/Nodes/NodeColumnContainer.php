@@ -11,7 +11,6 @@ namespace PhpMyAdmin\Navigation\Nodes;
 use PhpMyAdmin\Html\Generator;
 use PhpMyAdmin\Navigation\NodeFactory;
 use PhpMyAdmin\Url;
-use PhpMyAdmin\Util;
 
 /**
  * Represents a container for column nodes in the navigation tree
@@ -42,25 +41,23 @@ class NodeColumnContainer extends Node
         $this->realName = 'columns';
 
         $newLabel = _pgettext('Create new column', 'New');
-        $new = NodeFactory::getInstance(
-            'Node',
-            $newLabel
+        $new = NodeFactory::getInstanceForNewNode(
+            $newLabel,
+            'new_column italics'
         );
-        $new->isNew = true;
         $new->icon = Generator::getImage('b_column_add', $newLabel);
         $new->links = [
-            'text' => Url::getFromRoute('/table/addfield', [
+            'text' => Url::getFromRoute('/table/add-field', [
                 'server' => $GLOBALS['server'],
                 'field_where' => 'last',
                 'after_field' => '',
             ]) . '&amp;db=%3$s&amp;table=%2$s',
-            'icon' => Url::getFromRoute('/table/addfield', [
+            'icon' => Url::getFromRoute('/table/add-field', [
                 'server' => $GLOBALS['server'],
                 'field_where' => 'last',
                 'after_field' => '',
             ]) . '&amp;db=%3$s&amp;table=%2$s',
         ];
-        $new->classes = 'new_column italics';
         $this->addChild($new);
     }
 }

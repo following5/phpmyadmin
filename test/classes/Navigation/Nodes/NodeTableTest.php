@@ -10,7 +10,6 @@ namespace PhpMyAdmin\Tests\Navigation\Nodes;
 
 use PhpMyAdmin\Navigation\NodeFactory;
 use PhpMyAdmin\Tests\PmaTestCase;
-use PhpMyAdmin\Theme;
 
 /**
  * Tests for PhpMyAdmin\Navigation\Nodes\NodeTable class
@@ -64,6 +63,7 @@ class NodeTableTest extends PmaTestCase
      * @param string $imageName name of the image that should be set
      *
      * @return void
+     *
      * @dataProvider providerForTestIcon
      */
     public function testIcon($target, $imageName): void

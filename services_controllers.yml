@@ -68,6 +68,14 @@ services:
       template: '@template'
       db: '%db%'
 
+  PhpMyAdmin\Controllers\Database\ImportController:
+    class: 'PhpMyAdmin\Controllers\Database\ImportController'
+    arguments:
+      response: '@response'
+      dbi: '@dbi'
+      template: '@template'
+      db: '%db%'
+
   PhpMyAdmin\Controllers\Database\MultiTableQueryController:
     class: 'PhpMyAdmin\Controllers\Database\MultiTableQueryController'
     arguments:
@@ -113,6 +121,7 @@ services:
       dbi: '@dbi'
       template: '@template'
       db: '%db%'
+      checkUserPrivileges: '@check_user_privileges'
 
   PhpMyAdmin\Controllers\Database\SearchController:
     class: 'PhpMyAdmin\Controllers\Database\SearchController'
@@ -122,8 +131,24 @@ services:
       template: '@template'
       db: '%db%'
 
+  PhpMyAdmin\Controllers\Database\SqlAutoCompleteController:
+    class: 'PhpMyAdmin\Controllers\Database\SqlAutoCompleteController'
+    arguments:
+      response: '@response'
+      dbi: '@dbi'
+      template: '@template'
+      db: '%db%'
+
   PhpMyAdmin\Controllers\Database\SqlController:
     class: 'PhpMyAdmin\Controllers\Database\SqlController'
+    arguments:
+      response: '@response'
+      dbi: '@dbi'
+      template: '@template'
+      db: '%db%'
+
+  PhpMyAdmin\Controllers\Database\SqlFormatController:
+    class: 'PhpMyAdmin\Controllers\Database\SqlFormatController'
     arguments:
       response: '@response'
       dbi: '@dbi'
@@ -139,6 +164,15 @@ services:
       db: '%db%'
       relation: '@relation'
       replication: '@replication'
+
+  PhpMyAdmin\Controllers\Database\TrackingController:
+    class: 'PhpMyAdmin\Controllers\Database\TrackingController'
+    arguments:
+      response: '@response'
+      dbi: '@dbi'
+      template: '@template'
+      db: '%db%'
+      tracking: '@tracking'
 
   PhpMyAdmin\Controllers\Database\TriggersController:
     class: 'PhpMyAdmin\Controllers\Database\TriggersController'
@@ -157,6 +191,15 @@ services:
       errorReport: '@error_report'
       errorHandler: '@error_handler'
 
+  PhpMyAdmin\Controllers\ExportController:
+    class: 'PhpMyAdmin\Controllers\ExportController'
+    arguments:
+      response: '@response'
+      dbi: '@dbi'
+      template: '@template'
+      export: '@export'
+      relation: '@relation'
+
   PhpMyAdmin\Controllers\GisDataEditorController:
     class: 'PhpMyAdmin\Controllers\GisDataEditorController'
     arguments:
@@ -172,6 +215,15 @@ services:
       template: '@template'
       config: '@config'
       themeManager: '@theme_manager'
+
+  PhpMyAdmin\Controllers\ImportController:
+    class: 'PhpMyAdmin\Controllers\ImportController'
+    arguments:
+      response: '@response'
+      dbi: '@dbi'
+      template: '@template'
+      import: '@import'
+      sql: '@sql'
 
   PhpMyAdmin\Controllers\ImportStatusController:
     class: 'PhpMyAdmin\Controllers\ImportStatusController'
@@ -192,12 +244,64 @@ services:
       dbi: '@dbi'
       template: '@template'
 
+  PhpMyAdmin\Controllers\LogoutController:
+    class: 'PhpMyAdmin\Controllers\LogoutController'
+
+  PhpMyAdmin\Controllers\NavigationController:
+    class: 'PhpMyAdmin\Controllers\NavigationController'
+    arguments:
+      response: '@response'
+      dbi: '@dbi'
+      template: '@template'
+      navigation: '@navigation'
+      relation: '@relation'
+
+  PhpMyAdmin\Controllers\NormalizationController:
+    class: 'PhpMyAdmin\Controllers\NormalizationController'
+    arguments:
+      response: '@response'
+      dbi: '@dbi'
+      template: '@template'
+      normalization: '@normalization'
+
   PhpMyAdmin\Controllers\PhpInfoController:
     class: 'PhpMyAdmin\Controllers\PhpInfoController'
     arguments:
       response: '@response'
       dbi: '@dbi'
       template: '@template'
+
+  PhpMyAdmin\Controllers\Preferences\FormsController:
+    class: 'PhpMyAdmin\Controllers\Preferences\FormsController'
+    arguments:
+      response: '@response'
+      dbi: '@dbi'
+      template: '@template'
+      userPreferences: '@user_preferences'
+      relation: '@relation'
+
+  PhpMyAdmin\Controllers\Preferences\ManageController:
+    class: 'PhpMyAdmin\Controllers\Preferences\ManageController'
+    arguments:
+      response: '@response'
+      dbi: '@dbi'
+      template: '@template'
+      userPreferences: '@user_preferences'
+      relation: '@relation'
+
+  PhpMyAdmin\Controllers\Preferences\TwoFactorController:
+    class: 'PhpMyAdmin\Controllers\Preferences\TwoFactorController'
+    arguments:
+      response: '@response'
+      dbi: '@dbi'
+      template: '@template'
+      relation: '@relation'
+
+  PhpMyAdmin\Controllers\SchemaExportController:
+    class: 'PhpMyAdmin\Controllers\SchemaExportController'
+    arguments:
+      export: '@export'
+      relation: '@relation'
 
   PhpMyAdmin\Controllers\Server\DatabasesController:
     class: 'PhpMyAdmin\Controllers\Server\DatabasesController'
@@ -227,6 +331,13 @@ services:
       dbi: '@dbi'
       template: '@template'
 
+  PhpMyAdmin\Controllers\Server\ImportController:
+    class: 'PhpMyAdmin\Controllers\Server\ImportController'
+    arguments:
+      response: '@response'
+      dbi: '@dbi'
+      template: '@template'
+
   PhpMyAdmin\Controllers\Server\PluginsController:
     class: 'PhpMyAdmin\Controllers\Server\PluginsController'
     arguments:
@@ -234,6 +345,14 @@ services:
       dbi: '@dbi'
       template: '@template'
       plugins: '@server_plugins'
+
+  PhpMyAdmin\Controllers\Server\PrivilegesController:
+    class: 'PhpMyAdmin\Controllers\Server\PrivilegesController'
+    arguments:
+      response: '@response'
+      dbi: '@dbi'
+      template: '@template'
+      relation: '@relation'
 
   PhpMyAdmin\Controllers\Server\ReplicationController:
     class: 'PhpMyAdmin\Controllers\Server\ReplicationController'
@@ -250,6 +369,14 @@ services:
       dbi: '@dbi'
       template: '@template'
       sqlQueryForm: '@sql_query_form'
+
+  PhpMyAdmin\Controllers\Server\UserGroupsController:
+    class: 'PhpMyAdmin\Controllers\Server\UserGroupsController'
+    arguments:
+      response: '@response'
+      dbi: '@dbi'
+      template: '@template'
+      relation: '@relation'
 
   PhpMyAdmin\Controllers\Server\Status\AdvisorController:
     class: 'PhpMyAdmin\Controllers\Server\Status\AdvisorController'
@@ -309,6 +436,17 @@ services:
       dbi: '@dbi'
       template: '@template'
 
+  PhpMyAdmin\Controllers\Table\AddFieldController:
+    class: 'PhpMyAdmin\Controllers\Table\AddFieldController'
+    arguments:
+      response: '@response'
+      dbi: '@dbi'
+      template: '@template'
+      db: '%db%'
+      table: '%table%'
+      transformations: '@transformations'
+      config: '@config'
+
   PhpMyAdmin\Controllers\Table\ChartController:
     class: 'PhpMyAdmin\Controllers\Table\ChartController'
     arguments:
@@ -317,9 +455,35 @@ services:
       template: '@template'
       db: '%db%'
       table: '%table%'
-      sql_query: null
-      url_query: null
-      cfg: null
+
+  PhpMyAdmin\Controllers\Table\CreateController:
+    class: 'PhpMyAdmin\Controllers\Table\CreateController'
+    arguments:
+      response: '@response'
+      dbi: '@dbi'
+      template: '@template'
+      db: '%db%'
+      table: '%table%'
+      transformations: '@transformations'
+      config: '@config'
+
+  PhpMyAdmin\Controllers\Table\FindReplaceController:
+    class: 'PhpMyAdmin\Controllers\Table\FindReplaceController'
+    arguments:
+      response: '@response'
+      dbi: '@dbi'
+      template: '@template'
+      db: '%db%'
+      table: '%table%'
+
+  PhpMyAdmin\Controllers\Table\GetFieldController:
+    class: 'PhpMyAdmin\Controllers\Table\GetFieldController'
+    arguments:
+      response: '@response'
+      dbi: '@dbi'
+      template: '@template'
+      db: '%db%'
+      table: '%table%'
 
   PhpMyAdmin\Controllers\Table\GisVisualizationController:
     class: 'PhpMyAdmin\Controllers\Table\GisVisualizationController'
@@ -329,11 +493,15 @@ services:
       template: '@template'
       db: '%db%'
       table: '%table%'
-      sql_query: null
-      url_params: null
-      goto: null
-      back: null
-      visualizationSettings: null
+
+  PhpMyAdmin\Controllers\Table\ImportController:
+    class: 'PhpMyAdmin\Controllers\Table\ImportController'
+    arguments:
+      response: '@response'
+      dbi: '@dbi'
+      template: '@template'
+      db: '%db%'
+      table: '%table%'
 
   PhpMyAdmin\Controllers\Table\IndexesController:
     class: 'PhpMyAdmin\Controllers\Table\IndexesController'
@@ -343,7 +511,18 @@ services:
       template: '@template'
       db: '%db%'
       table: '%table%'
-      index: '%index%'
+
+  PhpMyAdmin\Controllers\Table\OperationsController:
+    class: 'PhpMyAdmin\Controllers\Table\OperationsController'
+    arguments:
+      response: '@response'
+      dbi: '@dbi'
+      template: '@template'
+      db: '%db%'
+      table: '%table%'
+      operations: '@operations'
+      checkUserPrivileges: '@check_user_privileges'
+      relation: '@relation'
 
   PhpMyAdmin\Controllers\Table\PrivilegesController:
     class: 'PhpMyAdmin\Controllers\Table\PrivilegesController'
@@ -355,6 +534,15 @@ services:
       table: '%table%'
       privileges: '@server_privileges'
 
+  PhpMyAdmin\Controllers\Table\RecentFavoriteController:
+    class: 'PhpMyAdmin\Controllers\Table\RecentFavoriteController'
+    arguments:
+      response: '@response'
+      dbi: '@dbi'
+      template: '@template'
+      db: '%db%'
+      table: '%table%'
+
   PhpMyAdmin\Controllers\Table\RelationController:
     class: 'PhpMyAdmin\Controllers\Table\RelationController'
     arguments:
@@ -363,13 +551,16 @@ services:
       template: '@template'
       db: '%db%'
       table: '%table%'
-      options_array: null
-      cfgRelation: null
-      tbl_storage_engine: null
-      existrel: null
-      existrel_foreign: null
-      upd_query: null
       relation: '@relation'
+
+  PhpMyAdmin\Controllers\Table\RowActionController:
+    class: 'PhpMyAdmin\Controllers\Table\RowActionController'
+    arguments:
+      response: '@response'
+      dbi: '@dbi'
+      template: '@template'
+      db: '%db%'
+      table: '%table%'
 
   PhpMyAdmin\Controllers\Table\SearchController:
     class: 'PhpMyAdmin\Controllers\Table\SearchController'
@@ -379,8 +570,7 @@ services:
       template: '@template'
       db: '%db%'
       table: '%table%'
-      searchType: null
-      url_query: null
+      search: '@table_search'
       relation: '@relation'
 
   PhpMyAdmin\Controllers\Table\SqlController:
@@ -409,6 +599,36 @@ services:
       relation: '@relation'
       transformations: '@transformations'
       create_add_field: '@create_add_field'
+
+  PhpMyAdmin\Controllers\Table\TrackingController:
+    class: 'PhpMyAdmin\Controllers\Table\TrackingController'
+    arguments:
+      response: '@response'
+      dbi: '@dbi'
+      template: '@template'
+      db: '%db%'
+      table: '%table%'
+      tracking: '@tracking'
+
+  PhpMyAdmin\Controllers\Table\TriggersController:
+    class: 'PhpMyAdmin\Controllers\Table\TriggersController'
+    arguments:
+      response: '@response'
+      dbi: '@dbi'
+      template: '@template'
+      db: '%db%'
+      table: '%table%'
+
+  PhpMyAdmin\Controllers\Table\ZoomSearchController:
+    class: 'PhpMyAdmin\Controllers\Table\ZoomSearchController'
+    arguments:
+      response: '@response'
+      dbi: '@dbi'
+      template: '@template'
+      db: '%db%'
+      table: '%table%'
+      search: '@table_search'
+      relation: '@relation'
 
   PhpMyAdmin\Controllers\ThemesController:
     class: 'PhpMyAdmin\Controllers\ThemesController'

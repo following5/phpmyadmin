@@ -11,7 +11,6 @@ namespace PhpMyAdmin\Tests;
 
 use PhpMyAdmin\Config;
 use PhpMyAdmin\Tests\PmaTestCase;
-use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\Exception;
 
 /**
@@ -73,6 +72,7 @@ class ConfigTest extends PmaTestCase
      * Test for CheckSystem
      *
      * @return void
+     *
      * @group medium
      */
     public function testCheckSystem()
@@ -891,6 +891,7 @@ class ConfigTest extends PmaTestCase
      * Test for loading user preferences
      *
      * @return void
+     *
      * @todo Test actually preferences loading
      * @doesNotPerformAssertions
      */
@@ -931,13 +932,11 @@ class ConfigTest extends PmaTestCase
      */
     public function testGetThemeUniqueValue()
     {
-        $partial_sum = (
-            $this->object->source_mtime +
+        $partial_sum = $this->object->source_mtime +
             $this->object->default_source_mtime +
             $this->object->get('user_preferences_mtime') +
             $GLOBALS['PMA_Theme']->mtime_info +
-            $GLOBALS['PMA_Theme']->filesize_info
-        );
+            $GLOBALS['PMA_Theme']->filesize_info;
 
         $this->assertEquals($partial_sum, $this->object->getThemeUniqueValue());
     }
@@ -1044,8 +1043,9 @@ class ConfigTest extends PmaTestCase
     /**
      * Test for isGitRevision
      *
-     * @group git-revision
      * @return void
+     *
+     * @group git-revision
      */
     public function testIsGitRevisionLocalGitDir()
     {
@@ -1105,8 +1105,9 @@ class ConfigTest extends PmaTestCase
     /**
      * Test for isGitRevision
      *
-     * @group git-revision
      * @return void
+     *
+     * @group git-revision
      */
     public function testIsGitRevisionExternalGitDir()
     {
@@ -1167,8 +1168,9 @@ class ConfigTest extends PmaTestCase
     /**
      * Test for checkGitRevision packs folder
      *
-     * @group git-revision
      * @return void
+     *
+     * @group git-revision
      */
     public function testCheckGitRevisionPacksFolder()
     {
@@ -1232,8 +1234,9 @@ class ConfigTest extends PmaTestCase
     /**
      * Test for checkGitRevision packs folder
      *
-     * @group git-revision
      * @return void
+     *
+     * @group git-revision
      */
     public function testCheckGitRevisionRefFile()
     {
@@ -1288,8 +1291,9 @@ class ConfigTest extends PmaTestCase
     /**
      * Test for checkGitRevision with packs as file
      *
-     * @group git-revision
      * @return void
+     *
+     * @group git-revision
      */
     public function testCheckGitRevisionPacksFile()
     {

@@ -240,7 +240,7 @@ class Results
      *
      * @param string $property name of the property
      *
-     * @return mixed|void if property exist, value of the relevant property
+     * @return mixed|null if property exist, value of the relevant property
      */
     public function __get($property)
     {
@@ -1009,10 +1009,10 @@ class Results
         $buttons_html .= $this->_getTableNavigationButton(
             '&gt;&gt;',
             _pgettext('Last page', 'End'),
-            @((ceil(
+            @(ceil(
                 $this->__get('unlim_num_rows')
                 / $_SESSION['tmpval']['max_rows']
-            ) - 1) * $maxRows),
+            ) - 1) * $maxRows,
             $html_sql_query,
             false,
             $onsubmit,
@@ -1078,7 +1078,7 @@ class Results
 
         for ($j = 0; $j < $number_of_columns; $j++) {
             // PHP 7.4 fix for accessing array offset on bool
-            $col_visib_current = is_array($col_visib) ? $col_visib[$j] : null;
+            $col_visib_current = is_array($col_visib) && isset($col_visib[$j]) ? $col_visib[$j] : null;
 
             // assign $i with the appropriate column order
             $i = $col_order ? $col_order[$j] : $j;
@@ -2491,7 +2491,7 @@ class Results
         while ($row = $GLOBALS['dbi']->fetchRow($dt_result)) {
             // add repeating headers
             if (($row_no != 0) && ($_SESSION['tmpval']['repeat_cells'] != 0)
-                && ! ($row_no % $_SESSION['tmpval']['repeat_cells'])
+                && ! $row_no % $_SESSION['tmpval']['repeat_cells']
             ) {
                 $table_body_html .= $this->_getRepeatingHeaders(
                     $display_params
@@ -2841,11 +2841,7 @@ class Results
                             );
 
                             $transform_options = $this->transformations->getOptions(
-                                isset(
-                                    $mime_map[$orgFullColName]['transformation_options']
-                                )
-                                ? $mime_map[$orgFullColName]['transformation_options']
-                                : ''
+                                $mime_map[$orgFullColName]['transformation_options'] ?? ''
                             );
 
                             $meta->mimetype = str_replace(
@@ -2871,9 +2867,7 @@ class Results
                 $transformation_plugin = new $this->transformation_info[$dbLower][$tblLower][$nameLower][1](null);
 
                 $transform_options = $this->transformations->getOptions(
-                    isset($mime_map[$orgFullColName]['transformation_options'])
-                    ? $mime_map[$orgFullColName]['transformation_options']
-                    : ''
+                    $mime_map[$orgFullColName]['transformation_options'] ?? ''
                 );
 
                 $meta->mimetype = str_replace(
@@ -3347,7 +3341,7 @@ class Results
 
             $lnk_goto = Url::getFromRoute('/sql', $_url_params);
 
-            $kill = $GLOBALS['dbi']->getKillQuery($row[0]);
+            $kill = $GLOBALS['dbi']->getKillQuery((int) $row[0]);
 
             $_url_params = [
                 'db'        => 'mysql',
@@ -4449,7 +4443,7 @@ class Results
             mb_substr(
                 (string) $column_for_first_row,
                 0,
-                $GLOBALS['cfg']['LimitChars']
+                (int) $GLOBALS['cfg']['LimitChars']
             ) . '...'
         );
 
@@ -4478,7 +4472,7 @@ class Results
             mb_substr(
                 (string) $column_for_last_row,
                 0,
-                $GLOBALS['cfg']['LimitChars']
+                (int) $GLOBALS['cfg']['LimitChars']
             ) . '...'
         );
 
@@ -4642,9 +4636,7 @@ class Results
                     foreach ($rel as $key => $one_key) {
                         foreach ($one_key['index_list'] as $index => $one_field) {
                             $display_field = $this->relation->getDisplayField(
-                                isset($one_key['ref_db_name'])
-                                ? $one_key['ref_db_name']
-                                : $GLOBALS['db'],
+                                $one_key['ref_db_name'] ?? $GLOBALS['db'],
                                 $one_key['ref_table_name']
                             );
 
@@ -4652,9 +4644,7 @@ class Results
                                 $one_key['ref_table_name'],
                                 $one_key['ref_index_list'][$index],
                                 $display_field,
-                                isset($one_key['ref_db_name'])
-                                ? $one_key['ref_db_name']
-                                : $GLOBALS['db'],
+                                $one_key['ref_db_name'] ?? $GLOBALS['db'],
                             ];
                         }
                     }
@@ -4996,7 +4986,7 @@ class Results
             if ($geometry_found) {
                 $results_operations_html
                     .= Generator::linkOrButton(
-                        Url::getFromRoute('/table/gis_visualization', $_url_params),
+                        Url::getFromRoute('/table/gis-visualization', $_url_params),
                         Generator::getIcon(
                             'b_globe',
                             __('Visualize GIS data'),
@@ -5140,7 +5130,7 @@ class Results
             && (! empty($tmpdb) && ! empty($meta->orgtable))
         ) {
             $result = '<a href="'
-                . Url::getFromRoute('/table/get_field', $url_params)
+                . Url::getFromRoute('/table/get-field', $url_params)
                 . '" class="disableAjax">'
                 . $result . '</a>';
         }
@@ -5239,7 +5229,7 @@ class Results
     ) {
         $relational_display = $_SESSION['tmpval']['relational_display'];
         $printview = $this->__get('printview');
-        $decimals = isset($meta->decimals) ? $meta->decimals : '-1';
+        $decimals = $meta->decimals ?? '-1';
         $result = '<td data-decimals="' . $decimals . '"'
             . ' data-type="' . $meta->type . '"';
 
@@ -5665,14 +5655,14 @@ class Results
      *
      * @param string $str string to be truncated
      *
-     * @return mixed
+     * @return array
      *
      * @access  private
      *
      * @see     _handleNonPrintableContents(), _getDataCellForGeometryColumns(),
      *          _getDataCellForNonNumericColumns
      */
-    private function _getPartialText($str)
+    private function _getPartialText($str): array
     {
         $original_length = mb_strlen($str);
         if ($original_length > $GLOBALS['cfg']['LimitChars']
@@ -5681,7 +5671,7 @@ class Results
             $str = mb_substr(
                 $str,
                 0,
-                $GLOBALS['cfg']['LimitChars']
+                (int) $GLOBALS['cfg']['LimitChars']
             ) . '...';
             $truncated = true;
         } else {

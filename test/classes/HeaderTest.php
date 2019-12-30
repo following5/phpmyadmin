@@ -12,7 +12,6 @@ use PhpMyAdmin\Config;
 use PhpMyAdmin\Core;
 use PhpMyAdmin\Header;
 use PhpMyAdmin\Tests\PmaTestCase;
-use ReflectionMethod;
 use ReflectionProperty;
 
 /**
@@ -139,6 +138,7 @@ class HeaderTest extends PmaTestCase
      * Test for Disable Warnings
      *
      * @return void
+     *
      * @test
      */
     public function testDisableWarnings()

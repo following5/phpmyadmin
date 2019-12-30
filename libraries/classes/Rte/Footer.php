@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace PhpMyAdmin\Rte;
 
 use PhpMyAdmin\DatabaseInterface;
-use PhpMyAdmin\Html\MySQLDocumentation;
 use PhpMyAdmin\Html\Generator;
+use PhpMyAdmin\Html\MySQLDocumentation;
 use PhpMyAdmin\Url;
 use PhpMyAdmin\Util;
 
@@ -32,8 +32,6 @@ class Footer
     private $dbi;
 
     /**
-     * Footer constructor.
-     *
      * @param DatabaseInterface $dbi DatabaseInterface object
      */
     public function __construct(DatabaseInterface $dbi)

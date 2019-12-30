@@ -40,8 +40,6 @@ class ExportRelationSchema
     protected $relation;
 
     /**
-     * Constructor.
-     *
      * @param string                                       $db      database name
      * @param Pdf\Pdf|Svg\Svg|Eps\Eps|Dia\Dia|Pdf\Pdf|null $diagram schema diagram
      */
@@ -259,11 +257,11 @@ class ExportRelationSchema
     /**
      * Returns the file name
      *
-     * @param String $extension file extension
+     * @param string $extension file extension
      *
      * @return string file name
      */
-    protected function getFileName($extension)
+    protected function getFileName($extension): string
     {
         $filename = $this->db . $extension;
         // Get the name of this page to use as filename
@@ -287,9 +285,9 @@ class ExportRelationSchema
      * @param string  $type          Schema Type
      * @param string  $error_message The error message
      *
-     * @access public
-     *
      * @return void
+     *
+     * @access public
      */
     public static function dieSchema($pageNumber, $type = '', $error_message = '')
     {

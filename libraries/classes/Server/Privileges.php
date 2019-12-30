@@ -11,10 +11,9 @@ namespace PhpMyAdmin\Server;
 use PhpMyAdmin\Core;
 use PhpMyAdmin\DatabaseInterface;
 use PhpMyAdmin\Display\ChangePassword;
-use PhpMyAdmin\Html\Forms;
 use PhpMyAdmin\Html\Forms\Fields\DropDown;
-use PhpMyAdmin\Html\MySQLDocumentation;
 use PhpMyAdmin\Html\Generator;
+use PhpMyAdmin\Html\MySQLDocumentation;
 use PhpMyAdmin\Message;
 use PhpMyAdmin\Relation;
 use PhpMyAdmin\RelationCleanup;
@@ -51,8 +50,6 @@ class Privileges
     public $relation;
 
     /**
-     * Privileges constructor.
-     *
      * @param Template          $template        Template object
      * @param DatabaseInterface $dbi             DatabaseInterface object
      * @param Relation          $relation        Relation object
@@ -195,9 +192,9 @@ class Privileges
      * @param boolean    $enableHTML add <dfn> tag with tooltips
      * @param boolean    $tablePrivs whether row contains table privileges
      *
-     * @global  resource $user_link the database connection
-     *
      * @return array
+     *
+     * @global  resource $user_link the database connection
      */
     public function extractPrivInfo($row = null, $enableHTML = false, $tablePrivs = false)
     {
@@ -586,7 +583,7 @@ class Privileges
      */
     public function setUserGroup($username, $userGroup)
     {
-        $userGroup = $userGroup === null ? '' : $userGroup;
+        $userGroup = $userGroup ?? '';
         $cfgRelation = $this->relation->getRelationsParam();
         if (empty($cfgRelation['db']) || empty($cfgRelation['users']) || empty($cfgRelation['usergroups'])) {
             return;
@@ -630,10 +627,10 @@ class Privileges
      * @param string  $table  the table
      * @param boolean $submit whether to display the submit button or not
      *
+     * @return string html snippet
+     *
      * @global  array     $cfg         the phpMyAdmin configuration
      * @global  resource  $user_link   the database connection
-     *
-     * @return string html snippet
      */
     public function getHtmlToDisplayPrivilegesTable(
         $db = '*',
@@ -1071,9 +1068,7 @@ class Privileges
             $serverType = Util::getServerType();
             $serverVersion = $this->dbi->getVersion();
             $authentication_plugin
-                = (isset($_POST['authentication_plugin'])
-                ? $_POST['authentication_plugin']
-                : $this->getCurrentAuthenticationPlugin(
+                = ($_POST['authentication_plugin'] ?? $this->getCurrentAuthenticationPlugin(
                     'change',
                     $username,
                     $hostname
@@ -1686,7 +1681,7 @@ class Privileges
      *
      * @param string $username User name
      *
-     * @return mixed usergroup if found or null if not found
+     * @return mixed|null usergroup if found or null if not found
      */
     public function getUserGroupForUser($username)
     {
@@ -2254,7 +2249,7 @@ class Privileges
 
         return $this->template->render('server/privileges/initials_row', [
             'array_initials' => $array_initials,
-            'initial' => isset($_GET['initial']) ? $_GET['initial'] : null,
+            'initial' => $_GET['initial'] ?? null,
         ]);
     }
 
@@ -2688,7 +2683,7 @@ class Privileges
         ] = $this->getSqlQueriesForDisplayAndAddUser(
             $username,
             $hostname,
-            (isset($password) ? $password : '')
+            ($password ?? '')
         );
 
         if (empty($_POST['change_copy'])) {
@@ -2734,7 +2729,7 @@ class Privileges
 
         // Copy the user group while copying a user
         $old_usergroup =
-            isset($_POST['old_usergroup']) ? $_POST['old_usergroup'] : null;
+            $_POST['old_usergroup'] ?? null;
         $this->setUserGroup($_POST['username'], $old_usergroup);
 
         if ($create_user_real === null) {
@@ -2904,9 +2899,9 @@ class Privileges
         return [
             $username,
             $hostname,
-            isset($dbname) ? $dbname : null,
-            isset($tablename) ? $tablename : null,
-            isset($routinename) ? $routinename : null,
+            $dbname ?? null,
+            $tablename ?? null,
+            $routinename ?? null,
             $db_and_table,
             $databaseNameIsWildcard,
         ];

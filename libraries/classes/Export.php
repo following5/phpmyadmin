@@ -24,7 +24,6 @@ class Export
     private $dbi;
 
     /**
-     * Export constructor.
      * @param DatabaseInterface $dbi DatabaseInterface instance
      */
     public function __construct($dbi)
@@ -98,7 +97,7 @@ class Export
             $line = Encoding::kanjiStrConv(
                 $line,
                 $GLOBALS['knjenc'],
-                isset($GLOBALS['xkana']) ? $GLOBALS['xkana'] : ''
+                $GLOBALS['xkana'] ?? ''
             );
         }
 
@@ -731,7 +730,7 @@ class Export
 
                         $size = $this->dbi->fetchValue($query);
                         //Converting the size to MB
-                        $size = ($size / 1024) / 1024;
+                        $size = $size / 1024 / 1024;
                         if ($size > $table_size) {
                             continue;
                         }

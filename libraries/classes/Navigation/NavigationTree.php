@@ -20,7 +20,6 @@ use PhpMyAdmin\RecentFavoriteTable;
 use PhpMyAdmin\Response;
 use PhpMyAdmin\Template;
 use PhpMyAdmin\Url;
-use PhpMyAdmin\Util;
 
 /**
  * Displays a collapsible of database objects in the navigation frame
@@ -101,7 +100,6 @@ class NavigationTree
     private $dbi;
 
     /**
-     * NavigationTree constructor.
      * @param Template          $template Template instance
      * @param DatabaseInterface $dbi      DatabaseInterface instance
      */
@@ -312,6 +310,7 @@ class NavigationTree
         );
         $hiddenCounts = $this->tree->getNavigationHidingData();
         foreach ($data as $db) {
+            /** @var NodeDatabase $node */
             $node = NodeFactory::getInstance('NodeDatabase', $db);
             if (isset($hiddenCounts[$db])) {
                 $node->setHiddenCount($hiddenCounts[$db]);
@@ -326,8 +325,8 @@ class NavigationTree
                 $path,
                 $this->pos2Name[$key],
                 $this->pos2Value[$key],
-                isset($this->pos3Name[$key]) ? $this->pos3Name[$key] : '',
-                isset($this->pos3Value[$key]) ? $this->pos3Value[$key] : ''
+                $this->pos3Name[$key] ?? '',
+                $this->pos3Value[$key] ?? ''
             );
         }
 
@@ -675,16 +674,16 @@ class NavigationTree
     /**
      * Recursively groups tree nodes given a separator
      *
-     * @param mixed $node The node to group or null
-     *                    to group the whole tree. If
-     *                    passed as an argument, $node
-     *                    must be of type CONTAINER
+     * @param Node $node The node to group or null
+     *                   to group the whole tree. If
+     *                   passed as an argument, $node
+     *                   must be of type CONTAINER
      *
      * @return void
      */
-    public function groupTree($node = null)
+    public function groupTree(?Node $node = null): void
     {
-        if (! isset($node)) {
+        if ($node === null) {
             $node = $this->tree;
         }
         $this->groupNode($node);
@@ -825,6 +824,7 @@ class NavigationTree
                         $class = get_class($child);
                         $className = substr($class, strrpos($class, '\\') + 1);
                         unset($class);
+                        /** @var NodeDatabase $newChild */
                         $newChild = NodeFactory::getInstance(
                             $className,
                             mb_substr(
@@ -1194,7 +1194,7 @@ class NavigationTree
                     $args[] = urlencode($parent->realName);
                 }
                 $link = vsprintf($node->links['text'], $args);
-                $title = isset($node->links['title']) ? $node->links['title'] : '';
+                $title = $node->links['title'] ?? '';
                 if ($node->type == Node::CONTAINER) {
                     $retval .= "&nbsp;<a class='hover_show_full' href='" . $link . "'>";
                     $retval .= htmlspecialchars($node->name);

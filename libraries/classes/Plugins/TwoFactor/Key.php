@@ -10,7 +10,6 @@ namespace PhpMyAdmin\Plugins\TwoFactor;
 
 use PhpMyAdmin\Plugins\TwoFactorPlugin;
 use PhpMyAdmin\Response;
-use PhpMyAdmin\Template;
 use PhpMyAdmin\TwoFactor;
 use Samyoul\U2F\U2FServer\U2FException;
 use Samyoul\U2F\U2FServer\U2FServer;
@@ -134,6 +133,7 @@ class Key extends TwoFactorPlugin
      * Renders user interface to configure two-factor authentication
      *
      * @return string HTML code
+     *
      * @throws U2FException
      * @throws Throwable
      * @throws Twig_Error_Loader

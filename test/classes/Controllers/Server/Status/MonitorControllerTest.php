@@ -19,7 +19,6 @@ use PhpMyAdmin\Util;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class MonitorControllerTest
  * @package PhpMyAdmin\Tests\Controllers\Server\Status
  */
 class MonitorControllerTest extends TestCase
@@ -231,8 +230,11 @@ class MonitorControllerTest extends TestCase
 
         $GLOBALS['dbi'] = $dbi;
 
+        $response = Response::getInstance();
+        $response->setAjax(true);
+
         $controller = new MonitorController(
-            Response::getInstance(),
+            $response,
             $GLOBALS['dbi'],
             new Template(),
             $this->data,
@@ -303,8 +305,11 @@ class MonitorControllerTest extends TestCase
 
         $GLOBALS['dbi'] = $dbi;
 
+        $response = Response::getInstance();
+        $response->setAjax(true);
+
         $controller = new MonitorController(
-            Response::getInstance(),
+            $response,
             $GLOBALS['dbi'],
             new Template(),
             $this->data,
@@ -360,8 +365,11 @@ class MonitorControllerTest extends TestCase
         $dbi->expects($this->any())->method('fetchResult')
             ->will($this->returnValue($value));
 
+        $response = Response::getInstance();
+        $response->setAjax(true);
+
         $controller = new MonitorController(
-            Response::getInstance(),
+            $response,
             $dbi,
             new Template(),
             $this->data,
@@ -402,8 +410,11 @@ class MonitorControllerTest extends TestCase
         $dbi->expects($this->at(5))->method('fetchAssoc')
             ->will($this->returnValue(false));
 
+        $response = Response::getInstance();
+        $response->setAjax(true);
+
         $controller = new MonitorController(
-            Response::getInstance(),
+            $response,
             $dbi,
             new Template(),
             $this->data,

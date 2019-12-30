@@ -54,14 +54,14 @@ class RelationStatsPdf extends RelationStats
     /**
      * draws relation links and arrows shows foreign key relations
      *
+     * @see    Pdf
+     *
      * @param boolean $showColor Whether to use one color per relation or not
      * @param integer $i         The id of the link to draw
      *
-     * @access public
-     *
      * @return void
      *
-     * @see    Pdf
+     * @access public
      */
     public function relationDraw($showColor, $i)
     {
@@ -103,7 +103,7 @@ class RelationStatsPdf extends RelationStats
                 ],
             ];
             list ($a, $b, $c) = $case[$d];
-            $e = (1 - ($j - 1) / 6);
+            $e = 1 - ($j - 1) / 6;
             $this->diagram->SetDrawColor($a * 255 * $e, $b * 255 * $e, $c * 255 * $e);
         } else {
             $this->diagram->SetDrawColor(0);

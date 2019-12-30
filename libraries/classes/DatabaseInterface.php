@@ -306,7 +306,7 @@ class DatabaseInterface implements DbalInterface
         int $options = 0,
         bool $cache_affected_rows = true
     ) {
-        $debug = $GLOBALS['cfg']['DBG']['sql'];
+        $debug = isset($GLOBALS['cfg']['DBG']) ? $GLOBALS['cfg']['DBG']['sql'] : false;
         if (! isset($this->_links[$link])) {
             return false;
         }
@@ -547,9 +547,9 @@ class DatabaseInterface implements DbalInterface
      * @param string          $table_type   whether table or view
      * @param mixed           $link         link type
      *
-     * @todo    move into Table
-     *
      * @return array           list of tables in given db(s)
+     *
+     * @todo    move into Table
      */
     public function getTablesFull(
         string $database,
@@ -867,9 +867,9 @@ class DatabaseInterface implements DbalInterface
      * @param bool|int $limit_count  row count for LIMIT or true
      *                               for $GLOBALS['cfg']['MaxDbList']
      *
-     * @todo    move into ListDatabase?
-     *
      * @return array
+     *
+     * @todo    move into ListDatabase?
      */
     public function getDatabasesFull(
         ?string $database = null,
@@ -1280,12 +1280,12 @@ class DatabaseInterface implements DbalInterface
      * The 'Key' column is not calculated properly, use $dbi->getColumns()
      * to get correct values.
      *
+     * @see getColumns()
+     *
      * @param string  $database name of database
      * @param string  $table    name of table to retrieve columns from
      * @param string  $column   name of column, null to show all columns
      * @param boolean $full     whether to return full info or only column names
-     *
-     * @see getColumns()
      *
      * @return string
      */
@@ -1510,14 +1510,14 @@ class DatabaseInterface implements DbalInterface
             DatabaseInterface::CONNECT_USER
         );
 
-        if ($version) {
-            $this->_version_int = self::versionToInt($version['@@version']);
-            $this->_version_str = $version['@@version'];
-            $this->_version_comment = $version['@@version_comment'];
-            if (stripos($version['@@version'], 'mariadb') !== false) {
+        if (is_array($version)) {
+            $this->_version_str = isset($version['@@version']) ? $version['@@version'] : '';
+            $this->_version_int = self::versionToInt($this->_version_str);
+            $this->_version_comment = isset($version['@@version_comment']) ? $version['@@version_comment'] : '';
+            if (stripos($this->_version_str, 'mariadb') !== false) {
                 $this->_is_mariadb = true;
             }
-            if (stripos($version['@@version_comment'], 'percona') !== false) {
+            if (stripos($this->_version_comment, 'percona') !== false) {
                 $this->_is_percona = true;
             }
         }
@@ -1685,7 +1685,7 @@ class DatabaseInterface implements DbalInterface
 
         // return false if result is empty or false
         // or requested row is larger than rows in result
-        if ($this->numRows($result) < ($row_number + 1)) {
+        if ($this->numRows($result) < $row_number + 1) {
             return $value;
         }
 
@@ -2068,8 +2068,7 @@ class DatabaseInterface implements DbalInterface
             $one_result['name'] = $routine['Name'];
             $one_result['type'] = $routine['Type'];
             $one_result['definer'] = $routine['Definer'];
-            $one_result['returns'] = isset($routine['DTD_IDENTIFIER'])
-                ? $routine['DTD_IDENTIFIER'] : '';
+            $one_result['returns'] = $routine['DTD_IDENTIFIER'] ?? '';
             $ret[] = $one_result;
         }
 
@@ -2410,14 +2409,7 @@ class DatabaseInterface implements DbalInterface
     {
         if (count($this->_current_user) === 0) {
             $user = $this->getCurrentUser();
-            if ($user === '@') {// Request did not succeed, please do not cache
-                return [
-                    '',
-                    '',
-                ];
-            } else {
-                $this->_current_user = explode('@', $user);
-            }
+            $this->_current_user = explode('@', $user);
         }
         return $this->_current_user;
     }
@@ -2622,8 +2614,6 @@ class DatabaseInterface implements DbalInterface
             /* Run post connect for user connections */
             if ($target == DatabaseInterface::CONNECT_USER) {
                 $this->postConnect();
-            } elseif ($target == DatabaseInterface::CONNECT_CONTROL) {
-                $this->postConnectControl();
             }
             return $result;
         }

@@ -455,6 +455,7 @@ class DbiDummy implements DbiExtension
     /**
      * @param mixed  $link  link
      * @param string $query query
+     *
      * @return object|false
      */
     public function prepare($link, string $query)
@@ -634,6 +635,10 @@ class DbiDummy implements DbiExtension
                 'result' => [
                     [''],
                 ],
+            ],
+            [
+                'query' => 'SHOW GLOBAL VARIABLES ;',
+                'result' => [],
             ],
             [
                 'query'  => 'SHOW GLOBAL VARIABLES LIKE \'innodb_file_per_table\';',

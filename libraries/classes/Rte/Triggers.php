@@ -53,8 +53,6 @@ class Triggers
     private $dbi;
 
     /**
-     * Triggers constructor.
-     *
      * @param DatabaseInterface $dbi DatabaseInterface object
      */
     public function __construct(DatabaseInterface $dbi)
@@ -303,7 +301,7 @@ class Triggers
             'item_definer',
         ];
         foreach ($indices as $index) {
-            $retval[$index] = isset($_POST[$index]) ? $_POST[$index] : '';
+            $retval[$index] = $_POST[$index] ?? '';
         }
         return $retval;
     }
